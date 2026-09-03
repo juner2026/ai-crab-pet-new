@@ -11,7 +11,7 @@ public class PetService extends Service {
  private float bStartRawX,bStartRawY;private int bStartLx,bStartTy;private boolean bubbleMoved;
  private int tapCount,effectIx,posIx;
 
- private static final String[] NAMES={"gaming","singing","coffee","guitar","valentine","qixi"};
+ private static final String[] NAMES={"gaming","singing","coffee","guitar","valentine","qixi","eating","sleeping","coding","painting","reading"};
  private static final String[] LINES={"啾","想你了","抱抱","再戳一下","你回来啦","不许走","喜欢你","贴贴","乖","来啦","就黏着你","亲一口","摸摸头","不准跑","在呢","想你"};
 
  public IBinder onBind(Intent i){return null;}
