@@ -12,7 +12,7 @@ public class PetService extends Service {
  private int tapCount,effectIx,posIx;
 
  private static final String[] NAMES={"gaming","singing","coffee","guitar","valentine","qixi","eating","sleeping","coding","painting","reading"};
- private static final String[] LINES={"啾","想你了","抱抱","再戳一下","你回来啦","不许走","喜欢你","贴贴","乖","来啦","就黏着你","亲一口","摸摸头","不准跑","在呢","想你"};
+ private static final String[] LINES={"�","想你了","抱抱","再戳一下","你回来啦","不许走","喜欢你","贴贴","乖","来啦","就黏着你","亲一口","摸摸头","不准跑","在呢","想你"};
 
  public IBinder onBind(Intent i){return null;}
 
@@ -44,9 +44,9 @@ public class PetService extends Service {
 
  private void attachTouch(){root.setOnTouchListener((v,e)->{
   switch(e.getAction()){
-   case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();baseLx=lp.x;baseLy=lp.y;moved=false;return true;
+   case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();baseLx=lp.x;baseLy=lp.y;moved=false;crabView.animate().scaleX(1.2f).scaleY(1.2f).setDuration(90).start();return true;
    case MotionEvent.ACTION_MOVE:float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();effect();}return true;
-   case MotionEvent.ACTION_UP:if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();}long dur=System.currentTimeMillis()-downTime;if(!moved){if(dur>650){say("藏两秒");root.setVisibility(View.INVISIBLE);h.postDelayed(()->root.setVisibility(View.VISIBLE),2200);}else{tapCount++;posIx=(posIx+1)%NAMES.length;crabView.setAction(posIx);effect();say(LINES[(tapCount-1)%LINES.length]);if(monitor!=null)monitor.touched();h.postDelayed(()->tapCount=0,900);}}return true;
+   case MotionEvent.ACTION_UP:if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();}else{crabView.animate().scaleX(1f).scaleY(1f).setDuration(120).start();}long dur=System.currentTimeMillis()-downTime;if(!moved){if(dur>650){say("藏两秒");root.setVisibility(View.INVISIBLE);h.postDelayed(()->root.setVisibility(View.VISIBLE),2200);}else{tapCount++;posIx=(int)(Math.random()*NAMES.length);crabView.setAction(posIx);effect();say(LINES[(tapCount-1)%LINES.length]);if(monitor!=null)monitor.touched();h.postDelayed(()->tapCount=0,900);}}return true;
   }return true;});}
 
  private void say(String s){bubble.setText(s);bubble.setVisibility(View.VISIBLE);h.removeCallbacks(hide);h.postDelayed(hide,3600);}
