@@ -45,8 +45,7 @@ public class PetService extends Service {
  private void attachTouch(){root.setOnTouchListener((v,e)->{
   switch(e.getAction()){
    case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();baseLx=lp.x;baseLy=lp.y;moved=false;crabView.animate().scaleX(1.2f).scaleY(1.2f).setDuration(90).start();return true;
-   case MotionEvent.ACTION_MOVE:{float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();long t=System.currentTimeMillis();lastMoveX=e.getRawX();lastMoveT=t;if(t-lastTrail>260){lastTrail=t;trail();}
-android.util.DisplayMetrics dm=getResources().getDisplayMetrics();int sw=dm.widthPixels;int side=0;if(lp.x<60)side=1;else if(lp.x+460>sw-60)side=2;if(side>0){if(lastSide==0)edgeHit();lastSide=side;}else lastSide=0;}}return true;}
+   case MotionEvent.ACTION_MOVE:{float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();long t=System.currentTimeMillis();lastMoveX=e.getRawX();lastMoveT=t;if(t-lastTrail>260){lastTrail=t;trail();}android.util.DisplayMetrics dm=getResources().getDisplayMetrics();int sw=dm.widthPixels;int side=0;if(lp.x<60)side=1;else if(lp.x+460>sw-60)side=2;if(side>0){if(lastSide==0)edgeHit();lastSide=side;}else lastSide=0;}}return true;
    case MotionEvent.ACTION_UP:{
     if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();long dt=lastMoveT>0?System.currentTimeMillis()-lastMoveT:999;float vx=dt>0&&dt<220?(e.getRawX()-lastMoveX)/dt:0;android.util.DisplayMetrics dm2=getResources().getDisplayMetrics();int swx=dm2.widthPixels;if(Math.abs(vx)>0.7f){slideTo(vx>0?swx-460:0);}else{int sd=0;if(lp.x<60)sd=1;else if(lp.x+460>swx-60)sd=2;if(sd>0)edgeHit();}}else{crabView.animate().scaleX(1f).scaleY(1f).setDuration(120).start();}
     if(!moved){long dur=System.currentTimeMillis()-downTime;
@@ -56,7 +55,6 @@ android.util.DisplayMetrics dm=getResources().getDisplayMetrics();int sw=dm.widt
     return true;}
    case MotionEvent.ACTION_CANCEL:{if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();moved=false;}return true;}
   }return true;});}
-
  private void say(String s){bubble.setText(s);
   if(!bubbleCentered){bubbleCentered=true;bubble.post(()->{int bw=bubble.getWidth(),rw=root.getWidth();if(bw>0&&rw>0){FrameLayout.LayoutParams par=(FrameLayout.LayoutParams)bubble.getLayoutParams();par.leftMargin=Math.max(0,(rw-bw)/2);bubble.setLayoutParams(par);}});}
   bubble.setVisibility(View.INVISIBLE);bubble.setAlpha(0f);bubble.setScaleY(0.85f);bubble.setVisibility(View.VISIBLE);
