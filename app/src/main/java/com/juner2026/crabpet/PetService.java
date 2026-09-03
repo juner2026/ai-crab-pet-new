@@ -11,7 +11,7 @@ public class PetService extends Service {
  private float bStartRawX,bStartRawY;private int bStartLx,bStartTy;private boolean bubbleMoved;
  private int tapCount,effectIx,posIx;
 
- private static final String[] NAMES={"listening","singing","coffee","guitar","valentine","qixi"};
+ private static final String[] NAMES={"gaming","singing","coffee","guitar","valentine","qixi"};
  private static final String[] LINES={"啾","想你了","抱抱","再戳一下","你回来啦","不许走","喜欢你","贴贴","乖","来啦","就黏着你","亲一口","摸摸头","不准跑","在呢","想你"};
 
  public IBinder onBind(Intent i){return null;}
@@ -25,7 +25,7 @@ public class PetService extends Service {
  private void show(){if(root!=null)return;wm=(WindowManager)getSystemService(WINDOW_SERVICE);root=new FrameLayout(this);
   crabView=new CrabView(this);crabView.setAction(0);
   FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(420,420);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
-  bubble=new TextView(this);bubble.setText("嘘");bubble.setTextColor(Color.rgb(80,48,62));bubble.setTextSize(12);bubble.setGravity(Gravity.CENTER);bubble.setPadding(12,5,12,5);
+  bubble=new TextView(this);bubble.setText("�");bubble.setTextColor(Color.rgb(80,48,62));bubble.setTextSize(12);bubble.setGravity(Gravity.CENTER);bubble.setPadding(12,5,12,5);
   GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(255,240,248));g.setStroke(1,Color.rgb(244,176,204));g.setCornerRadius(14);bubble.setBackground(g);
   FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.NO_GRAVITY;bp.leftMargin=180;bp.topMargin=34;root.addView(bubble,bp);
   bubble.post(()->{int bw=bubble.getWidth();int rw=root.getWidth();if(bw>0&&rw>0){FrameLayout.LayoutParams par=(FrameLayout.LayoutParams)bubble.getLayoutParams();par.leftMargin=Math.max(0,(rw-bw)/2);bubble.setLayoutParams(par);}});
@@ -45,7 +45,7 @@ public class PetService extends Service {
  private void attachTouch(){root.setOnTouchListener((v,e)->{
   switch(e.getAction()){
    case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();baseLx=lp.x;baseLy=lp.y;moved=false;return true;
-   case MotionEvent.ACTION_MOVE:float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();}return true;
+   case MotionEvent.ACTION_MOVE:float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();effect();}return true;
    case MotionEvent.ACTION_UP:if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();}long dur=System.currentTimeMillis()-downTime;if(!moved){if(dur>650){say("藏两秒");root.setVisibility(View.INVISIBLE);h.postDelayed(()->root.setVisibility(View.VISIBLE),2200);}else{tapCount++;posIx=(posIx+1)%NAMES.length;crabView.setAction(posIx);effect();say(LINES[(tapCount-1)%LINES.length]);if(monitor!=null)monitor.touched();h.postDelayed(()->tapCount=0,900);}}return true;
   }return true;});}
 
