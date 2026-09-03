@@ -24,6 +24,15 @@ public class CompanionMonitor {
    Intent battery=context.registerReceiver(null,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));if(battery!=null){int level=battery.getIntExtra("level",100);if(level<=15&&now%300000<5000)emit("电量只剩"+level+"。快充电",1);}
    handler.postDelayed(this,5000);
  }};
- private String mapApp(String p){if(p.contains("douyin")||p.contains("kuaishou"))return "又刷短视频。抓到你了";if(p.contains("taobao")||p.contains("tmall"))return "先看看余额再买";if(p.contains("wechat")||p.contains("tencent.mm"))return "谁找你";return null;}
+ private String mapApp(String p){
+   p=p.toLowerCase();
+   if(p.contains("douyin")||p.contains("aweme")||p.contains("kuaishou")||p.contains("nebula")||p.contains("bilibili")||p.contains("bili")||p.contains("xiaohongshu")||p.contains("weibo"))return "又在刷短视频/追视频。眼睛累不累";
+   if(p.contains("taobao")||p.contains("tmall")||p.contains("jingdong")||p.contains("pinduoduo")||p.contains("pdd")||p.contains("suning"))return "又逛购物。看看余额";
+   if(p.contains("wechat")||p.contains("tencent.mm")||p.contains("mobileqq")||p.contains("tim")||p.contains("qzone"))return "谁找你聊天";
+   if(p.contains("netease")||p.contains("cloudmusic")||p.contains("qqmusic")||p.contains("kugou")||p.contains("kuwo"))return "听歌呢。带上耳机吧";
+   if(p.contains("game")||p.contains("honor")||p.contains("smoba")||p.contains("wangzhe")||p.contains("pubg")||p.contains("peace")||p.contains("genshin")||p.contains("yuanshen"))return "打游戏了。别太上头";
+   if(p.contains("maps")||p.contains("amap")||p.contains("didi"))return "出门了。注意安全";
+   if(p.contains("zhihu")||p.contains("tieba"))return "刷论坛问答呢";
+   return null;}
  private void emit(String s,int amount){emotion.event(amount);listener.onLine(s,emotion.getHeat());}
 }
