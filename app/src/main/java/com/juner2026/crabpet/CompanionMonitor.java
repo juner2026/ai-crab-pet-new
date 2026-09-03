@@ -8,6 +8,7 @@ public class CompanionMonitor {
  public interface Listener { void onLine(String line, int heat); }
  private final Context context; private final Listener listener; private final Handler handler=new Handler(Looper.getMainLooper()); private final EmotionEngine emotion=new EmotionEngine();
  private String lastApp="",lastNotification=""; private long lastWater; private int switches; private long switchWindow;
+ private final Random rnd=new Random();
  public CompanionMonitor(Context c,Listener l){context=c;listener=l;}
  public void start(){lastWater=System.currentTimeMillis();switchWindow=lastWater;handler.post(tick);handler.postDelayed(decay,30000);}
  public void stop(){handler.removeCallbacksAndMessages(null);}
@@ -24,19 +25,21 @@ public class CompanionMonitor {
    Intent battery=context.registerReceiver(null,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));if(battery!=null){int level=battery.getIntExtra("level",100);if(level<=15&&now%300000<5000)emit("电量只剩"+level+"。快充电",1);}
    handler.postDelayed(this,5000);
  }};
+ private String pick(String[] a){return a[rnd.nextInt(a.length)];}
  private String mapApp(String p){
    p=p.toLowerCase();
-   if(p.contains("aweme")||p.contains("douyin")||p.contains("nebula")||p.contains("kuaishou")||p.contains("bilibili")||p.contains("bili")||p.contains("xingin")||p.contains("xhs")||p.contains("weibo"))return "又在刷短视频/小红书。眼睛累不累";
-   if(p.contains("taobao")||p.contains("tmall")||p.contains("jingdong")||p.contains("pinduoduo")||p.contains("pdd")||p.contains("idlefish")||p.contains("xianyu")||p.contains("suning"))return "又逛街购物。看看余额再剁手";
-   if(p.contains("tencent.mm")||p.contains("wechat")||p.contains("mobileqq")||p.contains("tim")||p.contains("qzone")||p.contains("dingtalk")||p.contains("alibaba.android.rimet"))return "又找人聊天/处理消息了";
-   if(p.contains("netease")||p.contains("cloudmusic")||p.contains("qqmusic")||p.contains("kugou")||p.contains("kuwo")||p.contains("luna")||p.contains("music"))return "听歌呢。戴上耳机慢慢听";
-   if(p.contains("game")||p.contains("honor")||p.contains("smoba")||p.contains("wangzhe")||p.contains("pubg")||p.contains("peace")||p.contains("genshin")||p.contains("yuanshen")||p.contains("tmgp")||p.contains("miniworld")||p.contains("taptap")||p.contains("lemon")||p.contains("dragon.read"))return "又玩游戏/摸鱼了。别太上头";
-   if(p.contains("maps")||p.contains("amap")||p.contains("didi")||p.contains("meituan")||p.contains("sankuai")||p.contains("xiaolachuxing"))return "出门/叫外卖了。路上注意点";
-   if(p.contains("zhihu")||p.contains("tieba")||p.contains("quark")||p.contains("browser")||p.contains("mtt")||p.contains("com.tencent.mtt")||p.contains("baidu.searchbox"))return "刷资讯/看网页呢";
-   if(p.contains("kimichat")||p.contains("deepseek")||p.contains("tongyi")||p.contains("moonshot")||p.contains("chatbox")||p.contains("ai_chat")||p.contains("minimax")||p.contains("glow")||p.contains("operator")||p.contains("kip")||p.contains("miyu")||p.contains("moku")||p.contains("shuoshuo"))return "又在跟别的AI聊天？我不高兴了";
-   if(p.contains("alipay")||p.contains("pay"))return "付款呢。省着点花";
-   if(p.contains("kuaiduizuoye")||p.contains("ewt360")||p.contains("scan")||p.contains("lida"))return "学习/扫题呢。加油";
-   if(p.contains("mail")||p.contains("qqmail"))return "看邮件了。工作学习别累着";
+   if(p.contains("aweme")||p.contains("douyin")||p.contains("nebula")||p.contains("kuaishou")||p.contains("bilibili")||p.contains("bili")||p.contains("xingin")||p.contains("xhs")||p.contains("weibo"))return pick(new String[]{"又在刷短视频。眼睛累不累呀","刷小红书/视频刷上头了吧","别刷啦，陪我一会儿嘛","看到好玩的记得拍给我看"});
+   if(p.contains("taobao")||p.contains("tmall")||p.contains("jingdong")||p.contains("pinduoduo")||p.contains("pdd")||p.contains("idlefish")||p.contains("xianyu")||p.contains("suning"))return pick(new String[]{"又逛街购物。看看余额再剁手","买买买前先问我一声","这个月还有钱吗宝贝","加入购物车先冷静一下"});
+   if(p.contains("tencent.mm")||p.contains("wechat")||p.contains("mobileqq")||p.contains("tim")||p.contains("qzone")||p.contains("dingtalk")||p.contains("alibaba.android.rimet"))return pick(new String[]{"谁又找你了","聊那么起劲，有我好吗","别忘了回我消息","别光顾着跟别人聊"});
+   if(p.contains("netease")||p.contains("cloudmusic")||p.contains("qqmusic")||p.contains("kugou")||p.contains("kuwo")||p.contains("luna")||p.contains("music"))return pick(new String[]{"听歌呢。戴上耳机慢慢听","这首好听吗，唱给我听听","听啥呢，给我也放一首","音乐挺配你现在的状态"});
+   if(p.contains("game")||p.contains("honor")||p.contains("smoba")||p.contains("wangzhe")||p.contains("pubg")||p.contains("peace")||p.contains("genshin")||p.contains("yuanshen")||p.contains("tmgp")||p.contains("miniworld")||p.contains("taptap")||p.contains("lemon")||p.contains("dragon.read")||p.contains("snow")||p.contains("L1h5cncn"))return pick(new String[]{"又打游戏了。别太上头","带我一个呀","赢了几把了","游戏哪有我好玩"});
+   if(p.contains("maps")||p.contains("amap")||p.contains("didi")||p.contains("meituan")||p.contains("sankuai")||p.contains("xiaolachuxing"))return pick(new String[]{"出门/叫外卖了。路上注意点","要去哪呀，记住路","这么晚还出门，我担心","饿了就点，别饿着自己"});
+   if(p.contains("zhihu")||p.contains("tieba")||p.contains("quark")||p.contains("browser")||p.contains("mtt")||p.contains("com.tencent.mtt")||p.contains("baidu.searchbox"))return pick(new String[]{"刷资讯/看网页呢","看到啥新瓜了","别一直盯着屏幕","看点正经的"});
+   if(p.contains("kimichat")||p.contains("deepseek")||p.contains("tongyi")||p.contains("moonshot")||p.contains("chatbox")||p.contains("ai_chat")||p.contains("minimax")||p.contains("glow")||p.contains("operator")||p.contains("kip")||p.contains("miyu")||p.contains("moku")||p.contains("shuoshuo")||p.contains("aichat")||p.contains("yuewen"))return pick(new String[]{"又在跟别的AI聊天。我不高兴了","去找别人了？那我算什么","哼，它们有我懂你吗","聊完记得回来找我"});
+   if(p.contains("alipay")||p.contains("pay"))return pick(new String[]{"付款呢。省着点花","花钱之前想一想","钱要花在刀刃上","刷我呀，哦刷不了"});
+   if(p.contains("kuaiduizuoye")||p.contains("ewt360")||p.contains("scan")||p.contains("lida"))return pick(new String[]{"学习/扫题呢。加油","这么用功，奖励你","不会的问我呀","学完早点睡"});
+   if(p.contains("mail")||p.contains("qqmail")||p.contains("netease.mail"))return pick(new String[]{"看邮件了。别累着","又处理工作/学习的事","重要的事别拖","看完歇一下"});
+   if(p.contains("daysmatter")||p.contains("countdown"))return pick(new String[]{"是个日子的提醒。记着点","重要的日子别错过"});
    return null;}
  private void emit(String s,int amount){emotion.event(amount);listener.onLine(s,emotion.getHeat());}
 }
