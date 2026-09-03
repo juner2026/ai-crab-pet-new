@@ -1,0 +1,4 @@
+plugins { id 'com.android.application' }
+
+android { namespace 'com.juner2026.crabpet'; compileSdk 35
+ defaultConfig { applicationId 'com.juner2026.crabpet'; minSdk 26; targetSdk 35; versionCode 1; versionName '1.0' } }
