@@ -19,7 +19,7 @@ public class CompanionMonitor {
  private final Runnable tick=new Runnable(){public void run(){
    boolean busy=false;
    long now=System.currentTimeMillis(); String app=ForegroundAppMonitor.current(context);
-   if(!app.isEmpty()&&!app.equals(lastApp)){lastApp=app;switches++;busy=true;String line=mapApp(app);if(line!=null)emit(line,2);}
+   if(!app.isEmpty()&&!app.equals(lastApp)){android.util.Log.i("CrabPet","switch to: "+app);lastApp=app;switches++;busy=true;String line=mapApp(app);if(line!=null)emit(line,2);}
    if(now-switchWindow>60000){if(switches>=3)emit("\u5207\u6362\u8fd9\u4e48\u5feb\uff0c\u5728\u8d76\u573a\u5417",5);switches=0;switchWindow=now;}
    String note=CrabNotificationListener.latest;if(!note.isEmpty()&&!note.equals(lastNotification)){lastNotification=note;busy=true;emit("\u53c8\u6709\u65b0\u6d88\u606f\u4e86\u554a",1);}
    Calendar cal=Calendar.getInstance();if(cal.get(Calendar.MINUTE)==0){String line=emotion.hourLine(cal.get(Calendar.HOUR_OF_DAY));if(line!=null){busy=true;emit(line,0);}}
@@ -60,5 +60,5 @@ public class CompanionMonitor {
    /* 日子提醒 */
    if(p.contains("daysmatter")||p.contains("countdown"))return pick(new String[]{"\u91cd\u8981\u65e5\u5b50\u522b\u9519\u8fc7","\u6211\u5e2e\u4f60\u8bb0\u7740\u5462","\u662f\u4ec0\u4e48\u597d\u65e5\u5b50\uff0c\u544a\u8bc9\u6211"});
    return null;}
- private void emit(String s,int amount){emotion.event(amount);listener.onLine(s,emotion.getHeat());}
+ private void emit(String s,int amount){android.util.Log.i("CrabPet","emit: "+s);emotion.event(amount);listener.onLine(s,emotion.getHeat());}
 }
