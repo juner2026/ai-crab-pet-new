@@ -58,9 +58,9 @@ public class PetService extends Service {
  private void say(String s){bubble.setText(s);
   if(!bubbleCentered){bubbleCentered=true;bubble.post(()->{int bw=bubble.getWidth(),rw=root.getWidth();if(bw>0&&rw>0){FrameLayout.LayoutParams par=(FrameLayout.LayoutParams)bubble.getLayoutParams();par.leftMargin=Math.max(0,(rw-bw)/2);bubble.setLayoutParams(par);}});}
   bubble.setVisibility(View.INVISIBLE);bubble.setAlpha(0f);bubble.setScaleY(0.85f);bubble.setVisibility(View.VISIBLE);
-  bubble.animate().alpha(1f).setScaleY(1f).setDuration(200).start();
+  bubble.animate().alpha(1f).setDuration(200).start();
   h.removeCallbacks(hide);h.postDelayed(hide,3600);}
- Runnable hide=new Runnable(){public void run(){bubble.animate().alpha(0f).setScaleY(0.9f).setDuration(240).withEndAction(()->bubble.setVisibility(View.GONE)).start();}};
+ Runnable hide=new Runnable(){public void run(){bubble.animate().alpha(0f).setDuration(240).withEndAction(()->bubble.setVisibility(View.GONE)).start();}};
 
  private void spawn(boolean small){
   TextView e=new TextView(this);
