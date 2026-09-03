@@ -7,7 +7,7 @@ public class PetService extends Service {
  private WindowManager wm;private FrameLayout root;private WindowManager.LayoutParams lp;
  private CrabView crabView;private TextView bubble;private final Handler h=new Handler(Looper.getMainLooper());
  private CompanionMonitor monitor;private PopupWindow popup;
- private float downX,downY,startRawX,startRawY,baseLx,baseLy;private long downTime,lastTrail;private boolean moved;private int lastSide;
+ private float downX,downY,startRawX,startRawY,baseLx,baseLy;private long downTime,lastTrail;private boolean moved;private int lastSide;private float lastMoveX;private long lastMoveT;private boolean sliding;
  private float bStartRawX,bStartRawY;private int bStartLx,bStartTy;private boolean bubbleMoved,bubbleCentered;
 
  private static final String[] NAMES={"gaming","singing","coffee","guitar","valentine","qixi","eating","sleeping","coding","painting","reading","birthday","christmas","dragon_boat","exercise","halloween","lantern","mid_autumn","new_year","photo","shower","spring","watering","edge_walk","edge_enter","edge_peek","edge_jump"};
@@ -45,14 +45,16 @@ public class PetService extends Service {
  private void attachTouch(){root.setOnTouchListener((v,e)->{
   switch(e.getAction()){
    case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();baseLx=lp.x;baseLy=lp.y;moved=false;crabView.animate().scaleX(1.2f).scaleY(1.2f).setDuration(90).start();return true;
-   case MotionEvent.ACTION_MOVE:{float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();long t=System.currentTimeMillis();if(t-lastTrail>260){lastTrail=t;trail();}}return true;}
+   case MotionEvent.ACTION_MOVE:{float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();long t=System.currentTimeMillis();lastMoveX=e.getRawX();lastMoveT=t;if(t-lastTrail>260){lastTrail=t;trail();}
+android.util.DisplayMetrics dm=getResources().getDisplayMetrics();int sw=dm.widthPixels;int side=0;if(lp.x<60)side=1;else if(lp.x+460>sw-60)side=2;if(side>0){if(lastSide==0)edgeHit();lastSide=side;}else lastSide=0;}}return true;}
    case MotionEvent.ACTION_UP:{
-    if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();}else{crabView.animate().scaleX(1f).scaleY(1f).setDuration(120).start();}
+    if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();long dt=lastMoveT>0?System.currentTimeMillis()-lastMoveT:999;float vx=dt>0&&dt<220?(e.getRawX()-lastMoveX)/dt:0;android.util.DisplayMetrics dm2=getResources().getDisplayMetrics();int swx=dm2.widthPixels;if(Math.abs(vx)>0.7f){slideTo(vx>0?swx-460:0);}else{int sd=0;if(lp.x<60)sd=1;else if(lp.x+460>swx-60)sd=2;if(sd>0)edgeHit();}}else{crabView.animate().scaleX(1f).scaleY(1f).setDuration(120).start();}
     if(!moved){long dur=System.currentTimeMillis()-downTime;
      if(dur>650){showMenu();}
      else{crabView.setAction((int)(Math.random()*NAMES.length));burst();say(LINES[(int)(Math.random()*LINES.length)]);if(monitor!=null)monitor.touched();}
     }
     return true;}
+   case MotionEvent.ACTION_CANCEL:{if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();moved=false;}return true;}
   }return true;});}
 
  private void say(String s){bubble.setText(s);
@@ -76,7 +78,8 @@ public class PetService extends Service {
  }
  private void burst(){ring();int n=3+(int)(Math.random()*3);for(int i=0;i<n;i++)h.postDelayed(()->spawn(false),(long)(Math.random()*280));}
  private void trail(){spawn(true);}
-private void edgeHit(){crabView.setAction(23);burst();say("\u8d34\u5899\u5566\uff01\u631f\u6211\u4e00\u4e0b\u6211\u5c31\u4e0b\u6765");}
+private void edgeHit(){crabView.setAction(23+(int)(Math.random()*4));burst();say("\u8d34\u5899\u5566\uff01\u631f\u6211\u4e00\u4e0b\u6211\u5c31\u4e0b\u6765");}
+private void slideTo(int target){if(sliding)return;sliding=true;final int sx=lp.x;final int dist=target-sx;final long[] st={System.currentTimeMillis()};Runnable r=new Runnable(){public void run(){float frac=Math.min(1f,(System.currentTimeMillis()-st[0])/220f);float ease=1-(1-frac)*(1-frac);lp.x=(int)(sx+dist*ease);wm.updateViewLayout(root,lp);if(frac<1f)h.postDelayed(this,16);else{sliding=false;burst();edgeHit();}}};h.post(r);}
  private void ring(){
   View r=new View(this);
   GradientDrawable gd=new GradientDrawable();gd.setShape(GradientDrawable.OVAL);gd.setStroke(4,0xFFFF8FC0);gd.setColor(Color.TRANSPARENT);
