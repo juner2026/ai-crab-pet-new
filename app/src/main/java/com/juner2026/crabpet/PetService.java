@@ -7,7 +7,7 @@ public class PetService extends Service {
  private WindowManager wm;private FrameLayout root;private WindowManager.LayoutParams lp;
  private CrabView crabView;private TextView bubble;private final Handler h=new Handler(Looper.getMainLooper());
  private CompanionMonitor monitor;
- private float downX,downY,startRawX,startRawY;private long downTime;private boolean moved;
+ private float downX,downY,startRawX,startRawY,baseLx,baseLy;private long downTime;private boolean moved;
  private int tapCount,effectIx,posIx;
 
  private static final String[] NAMES={"listening","singing","coffee","guitar","valentine","qixi"};
@@ -23,26 +23,26 @@ public class PetService extends Service {
 
  private void show(){if(root!=null)return;wm=(WindowManager)getSystemService(WINDOW_SERVICE);root=new FrameLayout(this);
   crabView=new CrabView(this);crabView.setAction(0);
-  FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(210,210);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
-  bubble=new TextView(this);bubble.setText("嘘");bubble.setTextColor(Color.rgb(80,48,62));bubble.setTextSize(16);bubble.setGravity(Gravity.CENTER);bubble.setPadding(22,8,22,8);
-  GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(255,240,248));g.setStroke(2,Color.rgb(244,176,204));g.setCornerRadius(22);bubble.setBackground(g);
-  FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;bp.topMargin=16;root.addView(bubble,bp);
-  lp=new WindowManager.LayoutParams(250,330,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
+  FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(360,360);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
+  bubble=new TextView(this);bubble.setText("嘘");bubble.setTextColor(Color.rgb(80,48,62));bubble.setTextSize(12);bubble.setGravity(Gravity.CENTER);bubble.setPadding(12,5,12,5);
+  GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(255,240,248));g.setStroke(1,Color.rgb(244,176,204));g.setCornerRadius(14);bubble.setBackground(g);
+  FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;bp.topMargin=10;root.addView(bubble,bp);
+  lp=new WindowManager.LayoutParams(400,520,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
   h.post(loop);attachTouch();}
 
  Runnable loop=new Runnable(){public void run(){crabView.nextFrame();h.postDelayed(this,100);}};
 
  private void attachTouch(){root.setOnTouchListener((v,e)->{
   switch(e.getAction()){
-   case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();moved=false;return true;
-   case MotionEvent.ACTION_MOVE:float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;lp.x=(int)(startRawX-(v.getWidth()/2));lp.y=(int)(startRawY-(v.getHeight()/2));downX=e.getRawX();downY=e.getRawY();wm.updateViewLayout(root,lp);return true;
+   case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();baseLx=lp.x;baseLy=lp.y;moved=false;return true;
+   case MotionEvent.ACTION_MOVE:float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);}return true;
    case MotionEvent.ACTION_UP:long dur=System.currentTimeMillis()-downTime;if(!moved){if(dur>650){say("藏两秒");root.setVisibility(View.INVISIBLE);h.postDelayed(()->root.setVisibility(View.VISIBLE),2200);}else{tapCount++;posIx=(posIx+1)%NAMES.length;crabView.setAction(posIx);effect();say(LINES[(tapCount-1)%LINES.length]);if(monitor!=null)monitor.touched();h.postDelayed(()->tapCount=0,900);}}return true;
   }return true;});}
 
  private void say(String s){bubble.setText(s);bubble.setVisibility(View.VISIBLE);h.removeCallbacks(hide);h.postDelayed(hide,3600);}
  Runnable hide=new Runnable(){public void run(){bubble.setVisibility(View.GONE);}};
 
- private void effect(){effectIx++;TextView e=new TextView(this);String[] pool={"\u2726","\u2665","\u266A","\u266B","\u2601","!"};e.setText(pool[effectIx%pool.length]);e.setTextSize(24);e.setTextColor(new int[]{Color.rgb(255,190,50),Color.rgb(255,110,155),Color.rgb(190,150,255),Color.rgb(255,110,155),Color.rgb(100,205,255),Color.rgb(225,70,70)}[effectIx%6]);root.addView(e,new FrameLayout.LayoutParams(-2,-2));e.setX((float)(90+Math.random()*50));e.setY(70);e.animate().translationY(-45).alpha(0).setDuration(1500).withEndAction(()->root.removeView(e)).start();}
+ private void effect(){effectIx++;TextView e=new TextView(this);String[] pool={"\u2726","\u2665","\u266A","\u266B","\u2601","!"};e.setText(pool[effectIx%pool.length]);e.setTextSize(24);e.setTextColor(new int[]{Color.rgb(255,190,50),Color.rgb(255,110,155),Color.rgb(190,150,255),Color.rgb(255,110,155),Color.rgb(100,205,255),Color.rgb(225,70,70)}[effectIx%6]);root.addView(e,new FrameLayout.LayoutParams(-2,-2));e.setX((float)(150+Math.random()*60));e.setY(70);e.animate().translationY(-45).alpha(0).setDuration(1500).withEndAction(()->root.removeView(e)).start();}
 
  public void onDestroy(){if(monitor!=null)monitor.stop();if(root!=null&&wm!=null)wm.removeView(root);super.onDestroy();}
 
