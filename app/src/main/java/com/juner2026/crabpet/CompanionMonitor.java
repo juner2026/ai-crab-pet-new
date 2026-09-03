@@ -26,13 +26,17 @@ public class CompanionMonitor {
  }};
  private String mapApp(String p){
    p=p.toLowerCase();
-   if(p.contains("douyin")||p.contains("aweme")||p.contains("kuaishou")||p.contains("nebula")||p.contains("bilibili")||p.contains("bili")||p.contains("xiaohongshu")||p.contains("weibo"))return "又在刷短视频/追视频。眼睛累不累";
-   if(p.contains("taobao")||p.contains("tmall")||p.contains("jingdong")||p.contains("pinduoduo")||p.contains("pdd")||p.contains("suning"))return "又逛购物。看看余额";
-   if(p.contains("wechat")||p.contains("tencent.mm")||p.contains("mobileqq")||p.contains("tim")||p.contains("qzone"))return "谁找你聊天";
-   if(p.contains("netease")||p.contains("cloudmusic")||p.contains("qqmusic")||p.contains("kugou")||p.contains("kuwo"))return "听歌呢。带上耳机吧";
-   if(p.contains("game")||p.contains("honor")||p.contains("smoba")||p.contains("wangzhe")||p.contains("pubg")||p.contains("peace")||p.contains("genshin")||p.contains("yuanshen"))return "打游戏了。别太上头";
-   if(p.contains("maps")||p.contains("amap")||p.contains("didi"))return "出门了。注意安全";
-   if(p.contains("zhihu")||p.contains("tieba"))return "刷论坛问答呢";
+   if(p.contains("aweme")||p.contains("douyin")||p.contains("nebula")||p.contains("kuaishou")||p.contains("bilibili")||p.contains("bili")||p.contains("xingin")||p.contains("xhs")||p.contains("weibo"))return "又在刷短视频/小红书。眼睛累不累";
+   if(p.contains("taobao")||p.contains("tmall")||p.contains("jingdong")||p.contains("pinduoduo")||p.contains("pdd")||p.contains("idlefish")||p.contains("xianyu")||p.contains("suning"))return "又逛街购物。看看余额再剁手";
+   if(p.contains("tencent.mm")||p.contains("wechat")||p.contains("mobileqq")||p.contains("tim")||p.contains("qzone")||p.contains("dingtalk")||p.contains("alibaba.android.rimet"))return "又找人聊天/处理消息了";
+   if(p.contains("netease")||p.contains("cloudmusic")||p.contains("qqmusic")||p.contains("kugou")||p.contains("kuwo")||p.contains("luna")||p.contains("music"))return "听歌呢。戴上耳机慢慢听";
+   if(p.contains("game")||p.contains("honor")||p.contains("smoba")||p.contains("wangzhe")||p.contains("pubg")||p.contains("peace")||p.contains("genshin")||p.contains("yuanshen")||p.contains("tmgp")||p.contains("miniworld")||p.contains("taptap")||p.contains("lemon")||p.contains("dragon.read"))return "又玩游戏/摸鱼了。别太上头";
+   if(p.contains("maps")||p.contains("amap")||p.contains("didi")||p.contains("meituan")||p.contains("sankuai")||p.contains("xiaolachuxing"))return "出门/叫外卖了。路上注意点";
+   if(p.contains("zhihu")||p.contains("tieba")||p.contains("quark")||p.contains("browser")||p.contains("mtt")||p.contains("com.tencent.mtt")||p.contains("baidu.searchbox"))return "刷资讯/看网页呢";
+   if(p.contains("kimichat")||p.contains("deepseek")||p.contains("tongyi")||p.contains("moonshot")||p.contains("chatbox")||p.contains("ai_chat")||p.contains("minimax")||p.contains("glow")||p.contains("operator")||p.contains("kip")||p.contains("miyu")||p.contains("moku")||p.contains("shuoshuo"))return "又在跟别的AI聊天？我不高兴了";
+   if(p.contains("alipay")||p.contains("pay"))return "付款呢。省着点花";
+   if(p.contains("kuaiduizuoye")||p.contains("ewt360")||p.contains("scan")||p.contains("lida"))return "学习/扫题呢。加油";
+   if(p.contains("mail")||p.contains("qqmail"))return "看邮件了。工作学习别累着";
    return null;}
  private void emit(String s,int amount){emotion.event(amount);listener.onLine(s,emotion.getHeat());}
 }
