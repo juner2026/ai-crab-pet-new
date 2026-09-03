@@ -8,6 +8,7 @@ public class PetService extends Service {
  private CrabView crabView;private TextView bubble;private final Handler h=new Handler(Looper.getMainLooper());
  private CompanionMonitor monitor;
  private float downX,downY,startRawX,startRawY,baseLx,baseLy;private long downTime;private boolean moved;
+ private float bStartRawX,bStartRawY;private int bStartLx,bStartTy;private boolean bubbleMoved;
  private int tapCount,effectIx,posIx;
 
  private static final String[] NAMES={"listening","singing","coffee","guitar","valentine","qixi"};
@@ -26,9 +27,18 @@ public class PetService extends Service {
   FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(420,420);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
   bubble=new TextView(this);bubble.setText("嘘");bubble.setTextColor(Color.rgb(80,48,62));bubble.setTextSize(12);bubble.setGravity(Gravity.CENTER);bubble.setPadding(12,5,12,5);
   GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(255,240,248));g.setStroke(1,Color.rgb(244,176,204));g.setCornerRadius(14);bubble.setBackground(g);
-  FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;bp.topMargin=34;root.addView(bubble,bp);
+  FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.NO_GRAVITY;bp.leftMargin=180;bp.topMargin=34;root.addView(bubble,bp);
+  bubble.post(()->{int bw=bubble.getWidth();int rw=root.getWidth();if(bw>0&&rw>0){FrameLayout.LayoutParams par=(FrameLayout.LayoutParams)bubble.getLayoutParams();par.leftMargin=Math.max(0,(rw-bw)/2);bubble.setLayoutParams(par);}});
+  attachBubbleTouch();
   lp=new WindowManager.LayoutParams(460,600,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
   h.post(loop);attachTouch();}
+
+ private void attachBubbleTouch(){bubble.setOnTouchListener((v,e)->{
+  switch(e.getAction()){
+   case MotionEvent.ACTION_DOWN:bStartRawX=e.getRawX();bStartRawY=e.getRawY();bStartLx=((FrameLayout.LayoutParams)bubble.getLayoutParams()).leftMargin;bStartTy=((FrameLayout.LayoutParams)bubble.getLayoutParams()).topMargin;bubbleMoved=false;return true;
+   case MotionEvent.ACTION_MOVE:float bdx=e.getRawX()-bStartRawX,bdy=e.getRawY()-bStartRawY;if(Math.abs(bdx)>8||Math.abs(bdy)>8)bubbleMoved=true;if(bubbleMoved){FrameLayout.LayoutParams par=(FrameLayout.LayoutParams)bubble.getLayoutParams();par.leftMargin=(int)(bStartLx+bdx);par.topMargin=(int)(bStartTy+bdy);bubble.setLayoutParams(par);}return true;
+   case MotionEvent.ACTION_UP:return true;
+  }return false;});}
 
  Runnable loop=new Runnable(){public void run(){crabView.nextFrame();h.postDelayed(this,90);}};
 
