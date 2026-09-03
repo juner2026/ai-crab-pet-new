@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="clawd.css"></head><body>
+<div id="bubble">我来啦</div>
+<div id="effects"></div>
+<div id="pet" class="idle">
+<svg viewBox="-15 -25 45 45" aria-label="Clawd pixel crab">
+<defs><style>
+.body{transform-origin:7.5px 13px;animation:groove 1.8s infinite ease-in-out}.shadow{animation:shadow 1.8s infinite ease-in-out}.eye{transform-origin:7.5px 9px;animation:blink 3.2s infinite}.armL{transform-origin:2px 10px;animation:tapL .7s infinite alternate}.armR{transform-origin:13px 10px;animation:tapR .7s infinite alternate}.note{opacity:0;animation:note 2s var(--delay) infinite ease-out}@keyframes groove{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}@keyframes shadow{0%,100%{transform:scaleX(1);opacity:.5}50%{transform:scaleX(.9);opacity:.35}}@keyframes blink{0%,46%,54%,100%{transform:scaleY(1)}50%{transform:scaleY:.1}}@keyframes tapL{to{transform:rotate(18deg)}}@keyframes tapR{to{transform:rotate(-18deg)}}@keyframes note{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--x),-18px)}}
+</style></defs>
+<g fill="#DE886D"><rect x="3" y="13" width="1" height="2"/><rect x="5" y="13" width="1" height="2"/><rect x="9" y="13" width="1" height="2"/><rect x="11" y="13" width="1" height="2"/></g>
+<rect class="shadow" x="3" y="15" width="9" height="1" fill="#000"/>
+<g class="body"><rect x="2" y="6" width="11" height="7" fill="#DE886D"/><g class="eye" fill="#000"><rect x="4" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/></g><g class="armL"><rect x="0" y="9" width="2" height="2" fill="#DE886D"/></g><g class="armR"><rect x="13" y="9" width="2" height="2" fill="#DE886D"/></g></g>
+</svg></div>
+<script>var bubble=document.getElementById('bubble'),effects=document.getElementById('effects'),modes=['✦','♥','♪','♫','☁','!'],idx=0;function say(t){bubble.textContent=t;bubble.classList.remove('show');void bubble.offsetWidth;bubble.classList.add('show')}function effect(){var e=document.createElement('span');e.textContent=modes[idx++%modes.length];e.className='fx';e.style.left=(20+Math.random()*75)+'%';e.style.setProperty('--x',(Math.random()*40-20)+'px');effects.appendChild(e);setTimeout(function(){e.remove()},1600)}document.getElementById('pet').addEventListener('click',function(){effect();say(['戳我干嘛','双击收到','音乐开大点','我看到你了','别摸啦','连续点击。生气了'][idx%6])});window.setMode=function(m){document.getElementById('pet').className=m||'idle';say(m==='sleep'?'我睡一会':m==='happy'?'今天心情不错':'我来啦')};window.setBubble=say;</script>
+</body></html>
