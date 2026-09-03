@@ -25,12 +25,12 @@ public class PetService extends Service {
 
  private void show(){if(root!=null)return;wm=(WindowManager)getSystemService(WINDOW_SERVICE);root=new FrameLayout(this);
   crabView=new CrabView(this);crabView.setAction(0);
-  FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(420,420);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
+  FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(340,340);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
   bubble=new TextView(this);bubble.setTextColor(Color.rgb(80,48,62));bubble.setTextSize(12);bubble.setGravity(Gravity.CENTER);bubble.setPadding(12,5,12,5);bubble.setVisibility(View.GONE);
   GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(255,240,248));g.setStroke(1,Color.rgb(244,176,204));g.setCornerRadius(14);bubble.setBackground(g);
   FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.NO_GRAVITY;bp.leftMargin=180;bp.topMargin=34;root.addView(bubble,bp);
   attachBubbleTouch();
-  lp=new WindowManager.LayoutParams(460,600,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
+  lp=new WindowManager.LayoutParams(380,560,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
   h.post(loop);attachTouch();}
 
  private void attachBubbleTouch(){bubble.setOnTouchListener((v,e)->{
@@ -45,9 +45,9 @@ public class PetService extends Service {
  private void attachTouch(){root.setOnTouchListener((v,e)->{
   switch(e.getAction()){
    case MotionEvent.ACTION_DOWN:downTime=System.currentTimeMillis();downX=e.getRawX();downY=e.getRawY();startRawX=e.getRawX();startRawY=e.getRawY();baseLx=lp.x;baseLy=lp.y;moved=false;crabView.animate().scaleX(1.2f).scaleY(1.2f).setDuration(90).start();return true;
-   case MotionEvent.ACTION_MOVE:{float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();long t=System.currentTimeMillis();lastMoveX=e.getRawX();lastMoveT=t;if(t-lastTrail>260){lastTrail=t;trail();}android.util.DisplayMetrics dm=getResources().getDisplayMetrics();int sw=dm.widthPixels;int side=0;if(lp.x<60)side=1;else if(lp.x+460>sw-60)side=2;if(side>0){if(lastSide==0){edgeHit();lastSide=side;}}else lastSide=0;}}return true;
+   case MotionEvent.ACTION_MOVE:{float dx=e.getRawX()-downX,dy=e.getRawY()-downY;if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;if(moved){lp.x=(int)(baseLx+(e.getRawX()-startRawX));lp.y=(int)(baseLy+(e.getRawY()-startRawY));wm.updateViewLayout(root,lp);crabView.animate().scaleX(1.15f).scaleY(1.15f).rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();long t=System.currentTimeMillis();lastMoveX=e.getRawX();lastMoveT=t;if(t-lastTrail>260){lastTrail=t;trail();}android.util.DisplayMetrics dm=getResources().getDisplayMetrics();int sw=dm.widthPixels;int side=0;if(lp.x<50)side=1;else if(lp.x+380>sw-50)side=2;if(side>0){if(lastSide==0){edgeHit();lastSide=side;}}else lastSide=0;}}return true;
    case MotionEvent.ACTION_UP:{
-    if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();long dt=lastMoveT>0?System.currentTimeMillis()-lastMoveT:999;float vx=dt>0&&dt<220?(e.getRawX()-lastMoveX)/dt:0;android.util.DisplayMetrics dm2=getResources().getDisplayMetrics();int swx=dm2.widthPixels;if(Math.abs(vx)>1.2f&&Math.abs(e.getRawX()-downX)>150){slideTo(vx>0?swx-460:0);}else{int sd=0;if(lp.x<60)sd=1;else if(lp.x+460>swx-60)sd=2;if(sd>0)edgeHit();}}else{crabView.animate().scaleX(1f).scaleY(1f).setDuration(120).start();}
+    if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();long dt=lastMoveT>0?System.currentTimeMillis()-lastMoveT:999;float vx=dt>0&&dt<220?(e.getRawX()-lastMoveX)/dt:0;android.util.DisplayMetrics dm2=getResources().getDisplayMetrics();int swx=dm2.widthPixels;if(Math.abs(vx)>1.2f&&Math.abs(e.getRawX()-downX)>150){slideTo(vx>0?swx-380:0);}else{int sd=0;if(lp.x<50)sd=1;else if(lp.x+380>swx-50)sd=2;if(sd>0)edgeHit();}}else{crabView.animate().scaleX(1f).scaleY(1f).setDuration(120).start();}
     if(!moved){long dur=System.currentTimeMillis()-downTime;
      if(dur>650){showMenu();}
      else{crabView.setAction((int)(Math.random()*NAMES.length));burst();say(LINES[(int)(Math.random()*LINES.length)]);if(monitor!=null)monitor.touched();}
@@ -68,7 +68,7 @@ public class PetService extends Service {
   e.setTextSize(small?15+(int)(Math.random()*8):18+(int)(Math.random()*14));
   e.setTextColor(HUES[(int)(Math.random()*HUES.length)]);
   root.addView(e,new FrameLayout.LayoutParams(-2,-2));
-  e.setX(175+(float)Math.random()*110);e.setY(335+(float)Math.random()*60);e.setAlpha(0.95f);
+  e.setX(140+(float)Math.random()*90);e.setY(355+(float)Math.random()*50);e.setAlpha(0.95f);
   e.animate().translationYBy(-(60+(float)Math.random()*90)).translationXBy((float)(Math.random()-0.5)*80)
    .rotation((float)(Math.random()*100-50)).scaleX(small?0.7f:0.5f).scaleY(small?0.7f:0.5f).alpha(0)
    .setDuration(small?900+(long)(Math.random()*400):1100+(long)(Math.random()*700))
@@ -82,7 +82,7 @@ private void slideTo(int target){if(sliding)return;sliding=true;final int sx=lp.
   View r=new View(this);
   GradientDrawable gd=new GradientDrawable();gd.setShape(GradientDrawable.OVAL);gd.setStroke(4,0xFFFF8FC0);gd.setColor(Color.TRANSPARENT);
   r.setBackground(gd);
-  FrameLayout.LayoutParams rp=new FrameLayout.LayoutParams(70,70);rp.leftMargin=195;rp.topMargin=355;
+  FrameLayout.LayoutParams rp=new FrameLayout.LayoutParams(70,70);rp.leftMargin=155;rp.topMargin=365;
   root.addView(r,rp);
   r.animate().scaleX(3.2f).scaleY(3.2f).alpha(0f).setDuration(650).withEndAction(()->root.removeView(r)).start();
  }
@@ -104,7 +104,7 @@ private void slideTo(int target){if(sliding)return;sliding=true;final int sx=lp.
   popup=new PopupWindow(box,(int)(140*d),WindowManager.LayoutParams.WRAP_CONTENT,true);
   popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
   popup.setOutsideTouchable(true);
-  popup.showAtLocation(root,Gravity.NO_GRAVITY,lp.x+24,lp.y-40);
+  popup.showAtLocation(root,Gravity.NO_GRAVITY,lp.x+24,lp.y+40);
  }
 
  public void onDestroy(){if(monitor!=null)monitor.stop();if(popup!=null&&popup.isShowing())popup.dismiss();if(root!=null&&wm!=null)wm.removeView(root);super.onDestroy();}
