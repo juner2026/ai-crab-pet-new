@@ -23,11 +23,11 @@ public class PetService extends Service {
 
  private void show(){if(root!=null)return;wm=(WindowManager)getSystemService(WINDOW_SERVICE);root=new FrameLayout(this);
   crabView=new CrabView(this);crabView.setAction(0);
-  FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(360,360);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
+  FrameLayout.LayoutParams cp=new FrameLayout.LayoutParams(420,420);cp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;root.addView(crabView,cp);
   bubble=new TextView(this);bubble.setText("嘘");bubble.setTextColor(Color.rgb(80,48,62));bubble.setTextSize(12);bubble.setGravity(Gravity.CENTER);bubble.setPadding(12,5,12,5);
   GradientDrawable g=new GradientDrawable();g.setColor(Color.rgb(255,240,248));g.setStroke(1,Color.rgb(244,176,204));g.setCornerRadius(14);bubble.setBackground(g);
-  FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;bp.topMargin=28;root.addView(bubble,bp);
-  lp=new WindowManager.LayoutParams(400,520,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
+  FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);bp.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;bp.topMargin=34;root.addView(bubble,bp);
+  lp=new WindowManager.LayoutParams(460,600,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
   h.post(loop);attachTouch();}
 
  Runnable loop=new Runnable(){public void run(){crabView.nextFrame();h.postDelayed(this,90);}};
@@ -42,7 +42,7 @@ public class PetService extends Service {
  private void say(String s){bubble.setText(s);bubble.setVisibility(View.VISIBLE);h.removeCallbacks(hide);h.postDelayed(hide,3600);}
  Runnable hide=new Runnable(){public void run(){bubble.setVisibility(View.GONE);}};
 
- private void effect(){effectIx++;TextView e=new TextView(this);String[] pool={"\u2726","\u2665","\u266A","\u266B","\u2601","!"};e.setText(pool[effectIx%pool.length]);e.setTextSize(24);e.setTextColor(new int[]{Color.rgb(255,190,50),Color.rgb(255,110,155),Color.rgb(190,150,255),Color.rgb(255,110,155),Color.rgb(100,205,255),Color.rgb(225,70,70)}[effectIx%6]);root.addView(e,new FrameLayout.LayoutParams(-2,-2));e.setX((float)(150+Math.random()*60));e.setY(90);e.animate().translationY(-45).alpha(0).setDuration(1500).withEndAction(()->root.removeView(e)).start();}
+ private void effect(){effectIx++;TextView e=new TextView(this);String[] pool={"\u2726","\u2665","\u266A","\u266B","\u2601","!"};e.setText(pool[effectIx%pool.length]);e.setTextSize(24);e.setTextColor(new int[]{Color.rgb(255,190,50),Color.rgb(255,110,155),Color.rgb(190,150,255),Color.rgb(255,110,155),Color.rgb(100,205,255),Color.rgb(225,70,70)}[effectIx%6]);root.addView(e,new FrameLayout.LayoutParams(-2,-2));e.setX((float)(170+Math.random()*70));e.setY(120);e.animate().translationY(-45).alpha(0).setDuration(1500).withEndAction(()->root.removeView(e)).start();}
 
  public void onDestroy(){if(monitor!=null)monitor.stop();if(root!=null&&wm!=null)wm.removeView(root);super.onDestroy();}
 
