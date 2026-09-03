@@ -1,6 +1,6 @@
 package com.juner2026.crabpet;
 
-import android.app.*;import android.content.*;import android.graphics.*;import android.os.*;import android.view.*;import android.widget.*;
+import android.app.*;import android.content.*;import android.graphics.*;import android.graphics.drawable.GradientDrawable;import android.os.*;import android.view.*;import android.widget.*;
 import java.io.IOException;
 
 public class PetService extends Service {
@@ -30,7 +30,7 @@ public class PetService extends Service {
   lp=new WindowManager.LayoutParams(250,330,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,PixelFormat.TRANSLUCENT);lp.gravity=Gravity.TOP|Gravity.START;lp.x=30;lp.y=180;wm.addView(root,lp);
   h.post(loop);attachTouch();}
 
- Runnable loop=new Runnable(){public void run(){float b=Math.round(Math.sin(System.currentTimeMillis()/300.0)*6);crabView.setBaseY(b);h.postDelayed(this,160);}};
+ Runnable loop=new Runnable(){public void run(){crabView.nextFrame();h.postDelayed(this,100);}};
 
  private void attachTouch(){root.setOnTouchListener((v,e)->{
   switch(e.getAction()){
@@ -47,11 +47,15 @@ public class PetService extends Service {
  public void onDestroy(){if(monitor!=null)monitor.stop();if(root!=null&&wm!=null)wm.removeView(root);super.onDestroy();}
 
  private static class CrabView extends View{
-  private Bitmap[] bmps;private Bitmap cur;int action=0;float baseY=0;Paint p=new Paint(Paint.ANTI_ALIAS_FLAG);
-  CrabView(Context c){super(c);bmps=new Bitmap[NAMES.length];for(int i=0;i<NAMES.length;i++){try{java.io.InputStream in=c.getAssets().open("clawd/"+NAMES[i]+".png");bmps[i]=BitmapFactory.decodeStream(in);in.close();}catch(IOException e){bmps[i]=null;}}cur=bmps[0];}
-  void setAction(int a){action=a;if(a>=0&&a<bmps.length&&bmps[a]!=null)cur=bmps[a];invalidate();}
+  private static final int FRAME_COUNT=10;
+  private Bitmap[] staticFrames;private Bitmap[] sheets;private Bitmap cur;
+  private int action=0,frame=0;private float baseY=0,sheetFrameWidth;
+  private final Paint p=new Paint(Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
+  CrabView(Context c){super(c);staticFrames=new Bitmap[NAMES.length];sheets=new Bitmap[NAMES.length];for(int i=0;i<NAMES.length;i++){staticFrames[i]=load(c,"clawd/"+NAMES[i]+".png");sheets[i]=load(c,"clawd_sheet/"+NAMES[i]+".png");}cur=staticFrames[0];}
+  private Bitmap load(Context c,String path){try{java.io.InputStream in=c.getAssets().open(path);Bitmap b=BitmapFactory.decodeStream(in);in.close();return b;}catch(IOException e){return null;}}
+  void setAction(int a){action=a;frame=0;if(a>=0&&a<sheets.length&&sheets[a]!=null){cur=sheets[a];sheetFrameWidth=sheets[a].getWidth()/(float)FRAME_COUNT;}else if(a>=0&&a<staticFrames.length)cur=staticFrames[a];invalidate();}
+  void nextFrame(){if(action>=0&&action<sheets.length&&sheets[action]!=null){frame=(frame+1)%FRAME_COUNT;invalidate();}}
   void setBaseY(float y){baseY=y;invalidate();}
-  @Override protected void onDraw(Canvas c){super.onDraw(c);c.save();c.translate(0,baseY);float s=Math.min(getWidth(),getHeight());if(cur!=null){Rect src=new Rect(0,0,cur.getWidth(),cur.getHeight());Rect dst=new Rect((int)(getWidth()-s)/2,(int)(getHeight()-s)/2,(int)(getWidth()+s)/2,(int)(getHeight()+s)/2);c.drawBitmap(cur,src,dst,p);}else{drawFallback(c,s/2);}c.restore();}
-  private void drawFallback(Canvas c,float r){Paint f=new Paint(Paint.ANTI_ALIAS_FLAG);f.setColor(Color.rgb(255,138,60));c.drawCircle(r,r*1.05f,r,f);f.setColor(Color.WHITE);c.drawCircle(r*0.75f,r*0.8f,r*0.22f,f);c.drawCircle(r*1.25f,r*0.8f,r*0.22f,f);f.setColor(Color.BLACK);c.drawCircle(r*0.75f,r*0.8f,r*0.09f,f);c.drawCircle(r*1.25f,r*0.8f,r*0.09f,f);f.setColor(Color.rgb(255,138,60));c.drawOval(r*0.1f,r*0.9f,r*0.4f,r*1.5f,f);c.drawOval(r*1.6f,r*0.9f,r*1.9f,r*1.5f,f);f.setColor(Color.rgb(220,90,40));c.drawOval(r*0.3f,r*1.3f,r*0.6f,r*1.9f,f);c.drawOval(r*1.4f,r*1.3f,r*1.7f,r*1.9f,f);}
+  @Override protected void onDraw(Canvas c){super.onDraw(c);c.save();c.translate(0,baseY);float s=Math.min(getWidth(),getHeight());if(cur!=null){Rect src;if(sheets[action]!=null){int left=Math.round(frame*sheetFrameWidth);int right=Math.min(sheets[action].getWidth(),Math.round((frame+1)*sheetFrameWidth));src=new Rect(left,0,right,sheets[action].getHeight());}else src=new Rect(0,0,cur.getWidth(),cur.getHeight());Rect dst=new Rect((int)(getWidth()-s)/2,(int)(getHeight()-s)/2,(int)(getWidth()+s)/2,(int)(getHeight()+s)/2);c.drawBitmap(cur,src,dst,p);}c.restore();}
  }
 }
