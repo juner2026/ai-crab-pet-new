@@ -336,8 +336,8 @@ public class PetService extends Service {
   if(tapRun>=9){
    tapRun=0;
    say(pick(new String[]{"\u6211\u5148\u8eb2\u4e00\u4e0b","\u4e0d\u7ed9\u4f60\u6233\u4e86","\u85cf\u8d77\u6765\u4e86"}));
-   h.postDelayed(()->root.setVisibility(View.INVISIBLE),800);
-   h.postDelayed(()->{root.setVisibility(View.VISIBLE);say(pick(new String[]{"\u6211\u56de\u6765\u5566","\u60f3\u6211\u4e86\u5427","\u8eb2\u4e0d\u4f4f\u7684"}));},4600);
+   h.postDelayed(()->root.setVisibility(View.INVISIBLE),350);
+   h.postDelayed(()->{root.setVisibility(View.VISIBLE);say(pick(new String[]{"\u6211\u56de\u6765\u5566","\u60f3\u6211\u4e86\u5427","\u8eb2\u4e0d\u4f4f\u7684"}));},1900);
    lastTap=now;lastTouch=now;lone=0;
    return;
   }
@@ -442,7 +442,7 @@ public class PetService extends Service {
     if(t.equals("\u6362\u4e2a\u52a8\u4f5c")){randomAction();burst();say(LINES[(int)(Math.random()*LINES.length)]);}
     else if(t.equals("\u8bf4\u53e5\u8bdd")){say(LINES[(int)(Math.random()*LINES.length)]);}
     else if(t.equals("\u53d8\u4e2a\u8272")){colorIdx=(colorIdx+1)%BC.length;applyBubbleColor(colorIdx);}
-    else{root.setVisibility(View.INVISIBLE);h.postDelayed(()->root.setVisibility(View.VISIBLE),3000);}});
+    else{root.setVisibility(View.INVISIBLE);h.postDelayed(()->root.setVisibility(View.VISIBLE),1600);}});
    box.addView(tv,new LinearLayout.LayoutParams(-1,-2));
   }
   popup=new PopupWindow(box,(int)(150*d),WindowManager.LayoutParams.WRAP_CONTENT,true);
