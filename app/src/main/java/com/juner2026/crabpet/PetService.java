@@ -65,7 +65,7 @@ public class PetService extends Service {
   glow=new View(this);
   GradientDrawable gd=new GradientDrawable();
   gd.setShape(GradientDrawable.OVAL);
-  gd.setGradientType(GradientDrawable.RADIAL);
+  gd.setGradientType(GradientDrawable.RADIAL_GRADIENT);
   gd.setGradientRadius(250f);
   gd.setColors(new int[]{0x55FFC4DE,0x33FFC4DE,0x1AFFC4DE,0x00FFC4DE});
   glow.setBackground(gd);
