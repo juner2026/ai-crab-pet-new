@@ -67,20 +67,19 @@ public class PetService extends Service {
      "吵醒我了…","唔……醒了","谁呀……是你啊","我梦见你了","别闹，再睡五分钟"};
  private String pick(String[] a){return a[(int)(Math.random()*a.length)];}
  private static final String[] NAMES={
-     "三花猫|clawd_view/skin_calico__calico-idle-follow.html","脸红|clawd_view/svg__clawd-aegyo-shy.html","喝咖啡|clawd_view/svg__clawd-coffee-hand.html",
-     "咖啡翻头|clawd_view/svg__clawd-coffee-head-flip.html","瘫睡|clawd_view/svg__clawd-collapse-sleep.html","晕了|clawd_view/svg__clawd-dizzy.html","报错|clawd_view/svg__clawd-error.html",
-     "开心|clawd_view/svg__clawd-happy.html","戴耳机|clawd_view/svg__clawd-headphones-groove.html","吹泡泡|clawd_view/svg__clawd-idle-bubble.html","瘫掉|clawd_view/svg__clawd-idle-collapse.html",
-     "打瞌睡|clawd_view/svg__clawd-idle-doze.html","跟着|clawd_view/svg__clawd-idle-follow.html","呼吸|clawd_view/svg__clawd-idle-living.html","乱看|clawd_view/svg__clawd-idle-look.html",
-     "低电量|clawd_view/svg__clawd-idle-low-battery.html","看书|clawd_view/svg__clawd-idle-reading.html","打哈欠|clawd_view/svg__clawd-idle-yawn.html","迷你警觉|clawd_view/svg__clawd-mini-alert.html",
-     "迷你横走|clawd_view/svg__clawd-mini-crabwalk.html","迷你入眠|clawd_view/svg__clawd-mini-enter-sleep.html","迷你进门|clawd_view/svg__clawd-mini-enter.html","迷你开心|clawd_view/svg__clawd-mini-happy.html",
-     "迷你待机|clawd_view/svg__clawd-mini-idle.html","迷你偷看|clawd_view/svg__clawd-mini-peek.html","迷你睡觉|clawd_view/svg__clawd-mini-sleep.html","迷你打字|clawd_view/svg__clawd-mini-typing.html",
-     "通知|clawd_view/svg__clawd-notification.html","坏蛋|clawd_view/svg__clawd-outlaw-bender.html","生气|clawd_view/svg__clawd-react-annoyed.html","双击跳|clawd_view/svg__clawd-react-double-jump.html",
-     "双击|clawd_view/svg__clawd-react-double.html","被拖|clawd_view/svg__clawd-react-drag.html","探头左|clawd_view/svg__clawd-react-left.html","探头右|clawd_view/svg__clawd-react-right.html",
-     "睡着|clawd_view/svg__clawd-sleeping.html","惊醒|clawd_view/svg__clawd-wake.html","搭积木|clawd_view/svg__clawd-working-building.html",
-     "搬东西|clawd_view/svg__clawd-working-carrying.html","调试|clawd_view/svg__clawd-working-debugger.html","杂耍|clawd_view/svg__clawd-working-juggling.html","扫除|clawd_view/svg__clawd-working-sweeping.html",
-     "思考|clawd_view/svg__clawd-working-thinking.html","代码老板|clawd_view/svg__clawd-working-typing-boss.html","打代码|clawd_view/svg__clawd-working-typing.html","超频思考|clawd_view/svg__clawd-working-ultrathink.html",
-     "变魔术|clawd_view/svg__clawd-working-wizard.html"
-};
+     "三花猫|clawd_view/skin_calico__calico-idle-follow.html","脸红|clawd_view/svg__clawd-aegyo-shy.html","喝咖啡|clawd_view/svg__clawd-coffee-hand.html","咖啡秀|clawd_view/svg__clawd-coffee-head-flip.html",
+     "瘫睡|clawd_view/svg__clawd-collapse-sleep.html","晕了|clawd_view/svg__clawd-dizzy.html","报错|clawd_view/svg__clawd-error.html","开心|clawd_view/svg__clawd-happy.html",
+     "戴耳机|clawd_view/svg__clawd-headphones-groove.html","吹泡泡|clawd_view/svg__clawd-idle-bubble.html","瘫掉|clawd_view/svg__clawd-idle-collapse.html","打瞌睡|clawd_view/svg__clawd-idle-doze.html",
+     "跟着|clawd_view/svg__clawd-idle-follow.html","呼吸|clawd_view/svg__clawd-idle-living.html","乱看|clawd_view/svg__clawd-idle-look.html","低电量|clawd_view/svg__clawd-idle-low-battery.html",
+     "看书|clawd_view/svg__clawd-idle-reading.html","打哈欠|clawd_view/svg__clawd-idle-yawn.html","迷你警觉|clawd_view/svg__clawd-mini-alert.html","迷你横走|clawd_view/svg__clawd-mini-crabwalk.html",
+     "迷你入眠|clawd_view/svg__clawd-mini-enter-sleep.html","迷你进门|clawd_view/svg__clawd-mini-enter.html","迷你开心|clawd_view/svg__clawd-mini-happy.html","迷你待机|clawd_view/svg__clawd-mini-idle.html",
+     "迷你偷看|clawd_view/svg__clawd-mini-peek.html","迷你睡觉|clawd_view/svg__clawd-mini-sleep.html","迷你打字|clawd_view/svg__clawd-mini-typing.html","通知|clawd_view/svg__clawd-notification.html",
+     "小坏蛋|clawd_view/svg__clawd-outlaw-bender.html","生气|clawd_view/svg__clawd-react-annoyed.html","双击跳|clawd_view/svg__clawd-react-double-jump.html","双击|clawd_view/svg__clawd-react-double.html",
+     "被拖|clawd_view/svg__clawd-react-drag.html","探头左|clawd_view/svg__clawd-react-left.html","探头右|clawd_view/svg__clawd-react-right.html","睡着|clawd_view/svg__clawd-sleeping.html",
+     "惊醒|clawd_view/svg__clawd-wake.html","搭积木|clawd_view/svg__clawd-working-building.html","搬东西|clawd_view/svg__clawd-working-carrying.html","调试|clawd_view/svg__clawd-working-debugger.html",
+     "杂耍|clawd_view/svg__clawd-working-juggling.html","扫除|clawd_view/svg__clawd-working-sweeping.html","思考|clawd_view/svg__clawd-working-thinking.html","老板|clawd_view/svg__clawd-working-typing-boss.html",
+     "打代码|clawd_view/svg__clawd-working-typing.html","烧脑|clawd_view/svg__clawd-working-ultrathink.html","变魔术|clawd_view/svg__clawd-working-wizard.html"
+}
  private String byName(String v){
   for(int i=0;i<NAMES.length;i++){
    int k=NAMES[i].indexOf(124);
