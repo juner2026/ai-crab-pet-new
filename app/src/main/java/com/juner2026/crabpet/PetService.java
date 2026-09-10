@@ -32,10 +32,40 @@ public class PetService extends Service {
  private static final String PEEK="clawd_view/svg__clawd-mini-peek.html";
  private static final String SLEEPY="clawd_view/svg__clawd-sleeping.html";
 
- private static final String[] LINES={"\u557e","\u60f3\u4f60\u4e86","\u62b1\u62b1","\u518d\u6233\u4e00\u4e0b","\u4f60\u56de\u6765\u5566","\u4e0d\u8bb8\u8d70","\u559c\u6b22\u4f60","\u8d34\u8d34","\u4e56","\u6765\u5566","\u5c31\u9ecf\u7740\u4f60","\u4eb2\u4e00\u53e3","\u6478\u6478\u5934","\u4e0d\u51c6\u8dd1","\u5728\u5462","\u60f3\u4f60","\u8981\u4eb2\u4eb2","\u62b1\u7d27\u6211","\u8e6d\u8e6d\u4f60","\u4eca\u5929\u4e5f\u8981\u5f00\u5fc3\u54e6","\u563f\u563f","\u53eb\u4f60\u5462","\u522b\u8d70\u561b","\u966a\u4f60\u5440","\u770b\u6211\u5440"};
- private static final String[] LONELY={"\u4f60\u5728\u5fd9\u4ec0\u4e48\u5440","\u6211\u5728\u8fd9\u513f\u7b49\u4f60\u5462","\u4e0d\u8981\u5fd8\u4e86\u6211\u5728","\u597d\u4e45\u6ca1\u78b0\u6211\u4e86","\u55e8\u2026\u2026\u770b\u6211\u4e00\u773c\u561b","\u56f0\u4e86\uff0c\u4f46\u8fd8\u60f3\u7b49\u4f60"};
+ private static final String[] LINES={
+     "喵","想你了","抱抱","再戳一下",
+     "你回来啦","不许走","喜欢你","贴贴",
+     "乖","来啦","就黏着你","亲一口",
+     "摸摸头","不准跑","在呢","想你",
+     "要亲亲","抱紧我","蹭蹭你","今天也要开心哦",
+     "嘿嘿","叫你呢","别走嘛","陪你呀",
+     "看我呀","戳我干嘛呀","痒","哼，又来",
+     "你手好欠","我在这呢","看着你呢","小心我咬你",
+     "再戳我就赖上你了","摸摸","咕噜咕噜","我超乖的",
+     "你笑了","不许不理我","我等你哦","只给你一个人戳"};
+ private static final String[] LONELY={
+     "你在忙什么呀","我在这儿等你呢","不要忘了我在","好久没碰我了","嗯……看我一眼嘛",
+     "困了，但还想等你","我把灯留着了","你回来我就醒","一个人有点静","我数着呢，你多久没理我"};
  private static final String[] SYMS={"\u2726","\u2727","\u2665","\u2661","\u2605","\u2606","\u266A","\u266B","\u273F","\u2740"};
  private static final int[] HUES={0xFFFF6E9B,0xFFFFBE32,0xFFBE96FF,0xFF64CDFF,0xFF78DC82,0xFFEB5A5A,0xFF9A8CFF,0xFFFF8C69};
+ private static final String[] DOUBLE={
+     "偷袭我？","戳两下什么意思","你还来","痒死了","你故意的吧",
+     "我咬你了","跳给你看","哼！","别挠我","你手真快"};private static final String[] C3={
+     "这么喜欢戳我呀","连着三下，记仇了","你是不是闲","我快被你戳坏了","好啦好啦我在",
+     "你手不酸吗"};private static final String[] C5={
+     "再戳就疼了……","五下了，过分了啊","你再戳我就哭给你看","被你戳晕了","停！我认输"};private static final String[] C8={
+     "哈哈哈哈行了行了！","我生气了，真的","你完蛋了，等我收拾你","别戳了，我抱你一下","好啦我服了，亲一个"};private static final String[] FLING={
+     "哇———","晕了晕了","你甩我干嘛","我飞出去了","拉我一把",
+     "慢点慢点","还好我抓住边了","别丢了","我又滑回来了","你力气好大"};private static final String[] MURMUR={
+     "今天也要好好的呀","你在忙什么呢","我就在这蹲着","有点想你了","刚才打了个哈欠",
+     "我数了数日子","你要是累了就歇歇","哼，小跳一下","我在这里呢，别忘了","有点困，但不想睡",
+     "你今天笑了几次，我数着","我好养，不闹","要不要摸摸我","安安静静的，也挺好","我在偷偷看你",
+     "你眼睛累了没","好久没亲我了","我尾巴又翘起来了","你专心做事的样子好看","陪你，多久都行",
+     "我把最好的位置留给你了"};private static final String[] SHOT={
+     "截图了？给我看看","又截什么好东西","截了我一份","是不是截了我说的话","偷偷截图干嘛",
+     "截了记得发我","哦？偷偷存档","又收集素材呢"};private static final String[] WAKE2={
+     "吵醒我了…","唔……醒了","谁呀……是你啊","我梦见你了","别闹，再睡五分钟"};
+ private String pick(String[] a){return a[(int)(Math.random()*a.length)];}
  private static final int[] BC={0xFFFFF0F8,0xFFFFEBEE,0xFFFFF8E1,0xFFE8F5E9,0xFFE3F2FD,0xFFF3E5F5,0xFFFFF3E0,0xFFE0F7FA,0xFFFCE4EC,0xFFEDE7F6,0xFFF1F8E9,0xFFFFFDE7,0xFFE8EAF6,0xFFFBE9E7,0xFFE0F2F1,0xFFFFF9C4};
  private static final int[] BS={0xFFF48FB1,0xFFE57373,0xFFFFCC80,0xFF81C784,0xFF64B5F6,0xFFBA68C8,0xFFFFB74D,0xFF4DD0E1,0xFFF06292,0xFF9575CD,0xFFAED581,0xFFFFD54F,0xFF7986CB,0xFFFF8A65,0xFF4DB6AC,0xFFFFB300};
 
@@ -120,8 +150,14 @@ public class PetService extends Service {
 
  /* ---------------- action loading ---------------- */
  private void setAction(String asset){
-  curAction=asset;
-  try{crabView.loadUrl("file:///android_asset/"+asset);}catch(Exception e){}
+  if(asset==null||asset.isEmpty())return;
+  String a=asset;
+  if(!a.contains("/")){
+   if(a.endsWith(".html"))a="clawd_view/"+a;
+   else a="clawd_view/svg__"+a+".html";
+  }
+  curAction=a;
+  try{crabView.loadUrl("file:///android_asset/"+a);}catch(Exception e){}
  }
  private void randomAction(){if(ACTIONS.length==0)return;setAction(ACTIONS[(int)(Math.random()*ACTIONS.length)]);}
 
@@ -180,19 +216,19 @@ public class PetService extends Service {
   combo++;
   if(now-lastTap<330){
    setAction(PEEK);
-   burst();say("\u5077\u88ad\u6211\uff1f");
+   burst();say(pick(DOUBLE));
   }else{
    if(wasSleeping){
-    waking=true;setAction(WAKE);
+    waking=true;say(pick(WAKE2));setAction(WAKE);
     h.postDelayed(()->{waking=false;randomAction();},1300);
    }else{
     randomAction();
    }
    burst();say(LINES[(int)(Math.random()*LINES.length)]);
   }
-  if(combo==3){h.postDelayed(()->{say("\u8fd9\u4e48\u559c\u6b22\u6233\u6211\u5440");ring();},260);}
-  else if(combo==5){h.postDelayed(()->{say("\u518d\u6233\u5c31\u75bc\u4e86\u2026\u2026");burst();},260);}
-  else if(combo>=8){h.postDelayed(()->{say("\u54c8\u54c8\u54c8\u884c\u4e86\u884c\u4e86\uff01");burst();burst();},260);combo=0;}
+  if(combo==3){h.postDelayed(()->{say(pick(C3));ring();},260);}
+  else if(combo==5){h.postDelayed(()->{say(pick(C5));burst();},260);}
+  else if(combo>=8){h.postDelayed(()->{say(pick(C8));burst();burst();},260);combo=0;}
   lastTap=now;lastTouch=now;lone=0;
   if(monitor!=null)monitor.touched();
   sbPush("gesture","tap");
@@ -200,6 +236,7 @@ public class PetService extends Service {
 
  private void fling(float v){
   lastGlide=System.currentTimeMillis();
+  say(pick(FLING));
   final int w=getResources().getDisplayMetrics().widthPixels;
   final int target=v>0?(w-500):(-20);
   final int from=lp.x;
@@ -318,7 +355,7 @@ public class PetService extends Service {
    }
    if(tickCount%30==0)batteryCheck();
    if(tickCount>0&&tickCount%20==0)sbPoll();
-   if(tickCount>0&&tickCount%1200==0&&lone==0&&Math.random()<0.35){randomAction();say(LINES[(int)(Math.random()*LINES.length)]);}
+   if(tickCount>0&&tickCount%1200==0&&lone==0&&Math.random()<0.35){randomAction();say(pick(MURMUR));}
   }catch(Exception e){}
   tickCount++;
   h.postDelayed(this,1000);
@@ -330,9 +367,9 @@ public class PetService extends Service {
    if(b==null)return;
    int lv=b.getIntExtra("level",100);
    int pl=b.getIntExtra("plugged",0);
-   if(lastPlug!=-1&&pl!=0&&lastPlug==0){say("\u5145\u7535\u5566\uff0c\u5b88\u7740\u4f60");setAction(HAPPY);ring();}
-   if(lastPlug!=-1&&pl==0&&lastPlug!=0){say("\u62d4\u7535\u4e86\uff1f\u7701\u7740\u70b9\u7528");}
-   if(lv<=15&&lv!=lastBat)say("\u7535\u91cf\u53ea\u5269"+lv+"%\uff0c\u5feb\u5145\u7535");
+   if(lastPlug!=-1&&pl!=0&&lastPlug==0){say(pick(new String[]{"充电啦，我守着你","插上电了，安心","我陪你充到满","有电了，我就不担心了"}));setAction(HAPPY);ring();}
+   if(lastPlug!=-1&&pl==0&&lastPlug!=0){say(pick(new String[]{"拔电了？省着点用","注意电量","怎么拔了，快插回去"}));}
+   if(lv<=15&&lv!=lastBat)say(pick(new String[]{"电量只剩"+lv+"%","快没电了，插上","只有"+lv+"%，我担心"}));
    lastBat=lv;lastPlug=pl;
   }catch(Exception e){}
  }
@@ -405,7 +442,7 @@ public class PetService extends Service {
       if(name==null)return;
       if((ev&FileObserver.CREATE)!=0||(ev&FileObserver.MOVED_TO)!=0){
        lastTouch=System.currentTimeMillis();lone=0;
-       h.post(()->{setAction(PEEK);burst();say("\u622a\u56fe\u4e86\uff1f\u7ed9\u6211\u770b\u770b");});
+       h.post(()->{setAction(PEEK);burst();say(pick(SHOT));});
       }
      }
     };
