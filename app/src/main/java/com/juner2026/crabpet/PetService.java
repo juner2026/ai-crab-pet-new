@@ -195,6 +195,7 @@ public class PetService extends Service {
   else if(combo>=8){h.postDelayed(()->{say("\u54c8\u54c8\u54c8\u884c\u4e86\u884c\u4e86\uff01");burst();burst();},260);combo=0;}
   lastTap=now;lastTouch=now;lone=0;
   if(monitor!=null)monitor.touched();
+  sbPush("gesture","tap");
  }
 
  private void fling(float v){
@@ -316,6 +317,7 @@ public class PetService extends Service {
     }
    }
    if(tickCount%30==0)batteryCheck();
+   if(tickCount>0&&tickCount%20==0)sbPoll();
    if(tickCount>0&&tickCount%1200==0&&lone==0&&Math.random()<0.35){randomAction();say(LINES[(int)(Math.random()*LINES.length)]);}
   }catch(Exception e){}
   tickCount++;
@@ -335,7 +337,61 @@ public class PetService extends Service {
   }catch(Exception e){}
  }
 
- /* ---------------- screenshot watcher ---------------- */
+  /* ---------------- Supabase bridge ---------------- */
+ private static final String SB_URL="https://xkqqryvwwocnrzwgirje.supabase.co";
+ private static final String SB_KEY=key();
+ private static String key(){return new String(android.util.Base64.decode("c2Jfc2VjcmV0X2NFMU1hQ09QYjJuOXA2UEo5Mkt0MXdfZldpQjFLX1o=",android.util.Base64.DEFAULT));}
+ private String lastSpeech="",lastAct="";
+ private void sbPoll(){
+  new Thread(()->{
+   try{
+    String s=sbGet("speech");
+    if(s!=null&&!s.isEmpty()&&!s.equals(lastSpeech)){lastSpeech=s;final String v=s;h.post(()->say(v));}
+    String a=sbGet("action");
+    if(a!=null&&!a.isEmpty()&&!a.equals(lastAct)){lastAct=a;final String v=a;h.post(()->setAction(v));}
+   }catch(Exception e){}
+  }).start();
+ }
+ private String sbGet(String key)throws Exception{
+  java.net.URL u=new java.net.URL(SB_URL+"/rest/v1/pet_state?state_key=eq."+key+"&select=state_value&limit=1");
+  java.net.HttpURLConnection c=(java.net.HttpURLConnection)u.openConnection();
+  c.setRequestProperty("apikey",SB_KEY);
+  c.setRequestProperty("Authorization","Bearer "+SB_KEY);
+  c.setConnectTimeout(8000);c.setReadTimeout(8000);
+  java.io.InputStream is;
+  try{is=c.getInputStream();}catch(Exception e){is=c.getErrorStream();}
+  if(is==null)return null;
+  java.io.BufferedReader r=new java.io.BufferedReader(new java.io.InputStreamReader(is,"UTF-8"));
+  StringBuilder sb=new StringBuilder();String l;
+  while((l=r.readLine())!=null)sb.append(l);
+  r.close();
+  String b=sb.toString();
+  int i=b.indexOf("\"state_value\":\"");
+  if(i<0)return null;
+  int j=b.indexOf("\"",i+15);
+  if(j<0)return null;
+  return b.substring(i+15,j);
+ }
+ private void sbPush(final String key,final String val){
+  new Thread(()->{
+   try{
+    java.net.URL u=new java.net.URL(SB_URL+"/rest/v1/pet_state");
+    java.net.HttpURLConnection c=(java.net.HttpURLConnection)u.openConnection();
+    c.setRequestMethod("POST");c.setDoOutput(true);
+    c.setRequestProperty("apikey",SB_KEY);
+    c.setRequestProperty("Authorization","Bearer "+SB_KEY);
+    c.setRequestProperty("Content-Type","application/json");
+    c.setRequestProperty("Prefer","resolution=merge-duplicates,return=minimal");
+    String safe=val.replace("\\","").replace("\"","'").replace("\n"," ").replace("\r"," ");
+    String body="[{\"state_key\":\""+key+"\",\"state_value\":\""+safe+"\"}]";
+    c.getOutputStream().write(body.getBytes("UTF-8"));
+    c.getResponseCode();
+   }catch(Exception e){}
+  }).start();
+ }
+
+
+/* ---------------- screenshot watcher ---------------- */
  private final Runnable watcher=new Runnable(){public void run(){
   try{
    String[] dirs={Environment.getExternalStorageDirectory()+"/Pictures/Screenshots",
