@@ -288,8 +288,8 @@ public class PetService extends Service {
       nx=Math.max(-20,Math.min(dmx.widthPixels-500,nx));
       ny=Math.max(-180,Math.min(dmx.heightPixels-480,ny));
       lp.x=nx;lp.y=ny;wm.updateViewLayout(root,lp);
-      crabView.animate().scaleX(1.15f).scaleY(1.15f)
-        .rotation((e.getRawX()-startRawX)*0.55f).setDuration(120).start();
+      crabView.setScaleX(1.15f);crabView.setScaleY(1.15f);
+      crabView.setRotation((e.getRawX()-startRawX)*0.55f);
       long t=System.currentTimeMillis();
       if(t-lastTrail>260){lastTrail=t;trail();}
      }

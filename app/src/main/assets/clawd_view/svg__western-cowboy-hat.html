@@ -33,7 +33,7 @@
   var S=Math.max(maxX-minX,maxY-minY);
   if(!isFinite(S)||S<=best)return;
   best=S;
-  var T=S*1.14;
+  var T=S*1.30;
   var cx=(minX+maxX)/2, cy=(minY+maxY)/2;
   s.setAttribute('viewBox',(cx-T/2)+' '+(cy-T/2)+' '+T+' '+T);
  }
