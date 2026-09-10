@@ -486,7 +486,7 @@ public class PetService extends Service {
   }).start();
  }
  private String sbGet(String key)throws Exception{
-  java.net.URL u=new java.net.URL(SB_URL+"/rest/v1/pet_state?state_key=eq."+key+"&select=state_value&limit=1");
+  java.net.URL u=new java.net.URL(SB_URL+"/rest/v1/pet_state?state_key=eq."+key+"&select=state_value&order=id.desc&limit=1");
   java.net.HttpURLConnection c=(java.net.HttpURLConnection)u.openConnection();
   c.setRequestProperty("apikey",SB_KEY);
   c.setRequestProperty("Authorization","Bearer "+SB_KEY);
@@ -508,6 +508,8 @@ public class PetService extends Service {
  private void sbPush(final String key,final String val){
   new Thread(()->{
    try{
+    try{java.net.HttpURLConnection d=(java.net.HttpURLConnection)new java.net.URL(SB_URL+"/rest/v1/pet_state?state_key=eq."+key).openConnection();
+     d.setRequestMethod("DELETE");d.setRequestProperty("apikey",SB_KEY);d.setRequestProperty("Authorization","Bearer "+SB_KEY);d.getResponseCode();}catch(Exception ex){}
     java.net.URL u=new java.net.URL(SB_URL+"/rest/v1/pet_state");
     java.net.HttpURLConnection c=(java.net.HttpURLConnection)u.openConnection();
     c.setRequestMethod("POST");c.setDoOutput(true);
