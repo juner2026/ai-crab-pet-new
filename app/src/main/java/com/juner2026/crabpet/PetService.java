@@ -79,7 +79,7 @@ public class PetService extends Service {
      "惊醒|clawd_view/svg__clawd-wake.html","搭积木|clawd_view/svg__clawd-working-building.html","搬东西|clawd_view/svg__clawd-working-carrying.html","调试|clawd_view/svg__clawd-working-debugger.html",
      "杂耍|clawd_view/svg__clawd-working-juggling.html","扫除|clawd_view/svg__clawd-working-sweeping.html","思考|clawd_view/svg__clawd-working-thinking.html","老板|clawd_view/svg__clawd-working-typing-boss.html",
      "打代码|clawd_view/svg__clawd-working-typing.html","烧脑|clawd_view/svg__clawd-working-ultrathink.html","变魔术|clawd_view/svg__clawd-working-wizard.html"
-}
+};
  private String byName(String v){
   for(int i=0;i<NAMES.length;i++){
    int k=NAMES[i].indexOf(124);
