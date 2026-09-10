@@ -23,7 +23,7 @@ public class PetService extends Service {
  private boolean moved,dragSaid;private int combo,colorIdx,lastBat=-1,lastPlug=-1,lone=0,tapRun=0;
  private String curAction="";private int heat=0;private boolean waking;
 
- private static final String ACTIONS[]={"clawd_view/svg__clawd-mini-idle.html","clawd_view/png__birthday.html","clawd_view/png__christmas.html","clawd_view/png__coding.html","clawd_view/png__coffee.html","clawd_view/png__dragon_boat.html","clawd_view/png__eating.html","clawd_view/png__exercise.html","clawd_view/png__gaming.html","clawd_view/png__guitar.html","clawd_view/png__halloween.html","clawd_view/png__lantern.html","clawd_view/png__listening.html","clawd_view/png__mid_autumn.html","clawd_view/png__new_year.html","clawd_view/png__painting.html","clawd_view/png__photo.html","clawd_view/png__qixi.html","clawd_view/png__reading.html","clawd_view/png__shower.html","clawd_view/png__singing.html","clawd_view/png__sleeping.html","clawd_view/png__spring.html","clawd_view/png__valentine.html","clawd_view/png__watering.html","clawd_view/svg__calico-idle-follow.html","clawd_view/svg__cigarette-fragment.html","clawd_view/svg__cigarette.html","clawd_view/svg__clawd-about-hero.html","clawd_view/svg__clawd-aegyo-shy.html","clawd_view/svg__clawd-coffee-hand.html","clawd_view/svg__clawd-coffee-head-flip.html","clawd_view/svg__clawd-collapse-sleep.html","clawd_view/svg__clawd-dizzy.html","clawd_view/svg__clawd-error.html","clawd_view/svg__clawd-experiment-thinking-bubble-v24.html","clawd_view/svg__clawd-happy.html","clawd_view/svg__clawd-headphones-groove.html","clawd_view/svg__clawd-idle-bubble.html","clawd_view/svg__clawd-idle-collapse.html","clawd_view/svg__clawd-idle-doze.html","clawd_view/svg__clawd-idle-follow.html","clawd_view/svg__clawd-idle-living.html","clawd_view/svg__clawd-idle-look.html","clawd_view/svg__clawd-idle-low-battery.html","clawd_view/svg__clawd-idle-reading-old.html","clawd_view/svg__clawd-idle-reading.html","clawd_view/svg__clawd-idle-yawn.html","clawd_view/svg__clawd-mini-alert.html","clawd_view/svg__clawd-mini-crabwalk.html","clawd_view/svg__clawd-mini-enter-sleep.html","clawd_view/svg__clawd-mini-enter.html","clawd_view/svg__clawd-mini-happy.html","clawd_view/svg__clawd-mini-peek.html","clawd_view/svg__clawd-mini-sleep.html","clawd_view/svg__clawd-mini-typing.html","clawd_view/svg__clawd-notification-retired-2026-05-12.html","clawd_view/svg__clawd-notification.html","clawd_view/svg__clawd-outlaw-bender.html","clawd_view/svg__clawd-react-annoyed.html","clawd_view/svg__clawd-react-double-jump.html","clawd_view/svg__clawd-react-double.html","clawd_view/svg__clawd-react-drag.html","clawd_view/svg__clawd-react-left.html","clawd_view/svg__clawd-react-right.html","clawd_view/svg__clawd-sleeping.html","clawd_view/svg__clawd-static-base.html","clawd_view/svg__clawd-wake.html","clawd_view/svg__clawd-working-building-boxes.html","clawd_view/svg__clawd-working-building.html","clawd_view/svg__clawd-working-carrying.html","clawd_view/svg__clawd-working-conducting-retired-2026-05-12.html","clawd_view/svg__clawd-working-debugger.html","clawd_view/svg__clawd-working-juggling.html","clawd_view/svg__clawd-working-sweeping.html","clawd_view/svg__clawd-working-thinking.html","clawd_view/svg__clawd-working-typing-boss.html","clawd_view/svg__clawd-working-typing-old.html","clawd_view/svg__clawd-working-typing.html","clawd_view/svg__clawd-working-ultrathink.html","clawd_view/svg__clawd-working-wizard.html","clawd_view/svg__cloudling-attention.html","clawd_view/svg__cloudling-building.html","clawd_view/svg__cloudling-carrying.html","clawd_view/svg__cloudling-conducting.html","clawd_view/svg__cloudling-dozing-to-sleeping.html","clawd_view/svg__cloudling-dozing.html","clawd_view/svg__cloudling-error.html","clawd_view/svg__cloudling-idle-reading.html","clawd_view/svg__cloudling-idle-to-dozing.html","clawd_view/svg__cloudling-idle-to-sleeping.html","clawd_view/svg__cloudling-idle.html","clawd_view/svg__cloudling-juggling.html","clawd_view/svg__cloudling-mini-alert.html","clawd_view/svg__cloudling-mini-crabwalk.html","clawd_view/svg__cloudling-mini-enter-roll-in.html","clawd_view/svg__cloudling-mini-enter-sleep.html","clawd_view/svg__cloudling-mini-happy.html","clawd_view/svg__cloudling-mini-idle.html","clawd_view/svg__cloudling-mini-peek.html","clawd_view/svg__cloudling-mini-sleep.html","clawd_view/svg__cloudling-mini-typing.html","clawd_view/svg__cloudling-notification.html","clawd_view/svg__cloudling-react-drag.html","clawd_view/svg__cloudling-sleeping-to-idle.html","clawd_view/svg__cloudling-sleeping.html","clawd_view/svg__cloudling-sweeping.html","clawd_view/svg__cloudling-thinking.html","clawd_view/svg__cloudling-typing.html","clawd_view/acc__cowboy-hat.html","clawd_view/acc__halo-original.html","clawd_view/acc__halo.html","clawd_view/svg__idle-follow.html","clawd_view/acc__party-hat.html","clawd_view/acc__pumpkin-hat.html","clawd_view/acc__santa-hat-original.html","clawd_view/acc__santa-hat.html","clawd_view/acc__top-hat.html","clawd_view/svg__tray-icon-project-mark-complete.html","clawd_view/svg__tray-icon-project-mark.html","clawd_view/acc__western-cowboy-hat.html","clawd_view/acc__wizard-hat.html"};
+ private static final String ACTIONS[]={"clawd_view/svg__clawd-mini-idle.html","clawd_view/png__birthday.html","clawd_view/png__christmas.html","clawd_view/png__coding.html","clawd_view/png__coffee.html","clawd_view/png__dragon_boat.html","clawd_view/png__eating.html","clawd_view/png__exercise.html","clawd_view/png__gaming.html","clawd_view/png__guitar.html","clawd_view/png__halloween.html","clawd_view/png__lantern.html","clawd_view/png__listening.html","clawd_view/png__mid_autumn.html","clawd_view/png__new_year.html","clawd_view/png__painting.html","clawd_view/png__photo.html","clawd_view/png__qixi.html","clawd_view/png__reading.html","clawd_view/png__shower.html","clawd_view/png__singing.html","clawd_view/png__sleeping.html","clawd_view/png__spring.html","clawd_view/png__valentine.html","clawd_view/png__watering.html","clawd_view/svg__calico-idle-follow.html","clawd_view/svg__cigarette-fragment.html","clawd_view/svg__cigarette.html","clawd_view/svg__clawd-about-hero.html","clawd_view/svg__clawd-aegyo-shy.html","clawd_view/svg__clawd-coffee-hand.html","clawd_view/svg__clawd-coffee-head-flip.html","clawd_view/svg__clawd-collapse-sleep.html","clawd_view/svg__clawd-dizzy.html","clawd_view/svg__clawd-error.html","clawd_view/svg__clawd-experiment-thinking-bubble-v24.html","clawd_view/svg__clawd-happy.html","clawd_view/svg__clawd-headphones-groove.html","clawd_view/svg__clawd-idle-bubble.html","clawd_view/svg__clawd-idle-collapse.html","clawd_view/svg__clawd-idle-doze.html","clawd_view/svg__clawd-idle-follow.html","clawd_view/svg__clawd-idle-living.html","clawd_view/svg__clawd-idle-look.html","clawd_view/svg__clawd-idle-low-battery.html","clawd_view/svg__clawd-idle-reading-old.html","clawd_view/svg__clawd-idle-reading.html","clawd_view/svg__clawd-idle-yawn.html","clawd_view/svg__clawd-mini-alert.html","clawd_view/svg__clawd-mini-crabwalk.html","clawd_view/svg__clawd-mini-enter-sleep.html","clawd_view/svg__clawd-mini-enter.html","clawd_view/svg__clawd-mini-happy.html","clawd_view/svg__clawd-mini-peek.html","clawd_view/svg__clawd-mini-sleep.html","clawd_view/svg__clawd-mini-typing.html","clawd_view/svg__clawd-notification-retired-2026-05-12.html","clawd_view/svg__clawd-notification.html","clawd_view/svg__clawd-outlaw-bender.html","clawd_view/svg__clawd-react-annoyed.html","clawd_view/svg__clawd-react-double-jump.html","clawd_view/svg__clawd-react-double.html","clawd_view/svg__clawd-react-drag.html","clawd_view/svg__clawd-react-left.html","clawd_view/svg__clawd-react-right.html","clawd_view/svg__clawd-sleeping.html","clawd_view/svg__clawd-static-base.html","clawd_view/svg__clawd-wake.html","clawd_view/svg__clawd-working-building-boxes.html","clawd_view/svg__clawd-working-building.html","clawd_view/svg__clawd-working-carrying.html","clawd_view/svg__clawd-working-conducting-retired-2026-05-12.html","clawd_view/svg__clawd-working-debugger.html","clawd_view/svg__clawd-working-juggling.html","clawd_view/svg__clawd-working-sweeping.html","clawd_view/svg__clawd-working-thinking.html","clawd_view/svg__clawd-working-typing-boss.html","clawd_view/svg__clawd-working-typing-old.html","clawd_view/svg__clawd-working-typing.html","clawd_view/svg__clawd-working-ultrathink.html","clawd_view/svg__clawd-working-wizard.html","clawd_view/gif__cloudling-attention.html","clawd_view/gif__cloudling-building.html","clawd_view/gif__cloudling-carrying.html","clawd_view/gif__cloudling-conducting.html","clawd_view/gif__cloudling-error.html","clawd_view/gif__cloudling-idle-reading.html","clawd_view/gif__cloudling-idle.html","clawd_view/gif__cloudling-juggling.html","clawd_view/gif__cloudling-mini-alert.html","clawd_view/gif__cloudling-mini-crabwalk.html","clawd_view/gif__cloudling-mini-happy.html","clawd_view/gif__cloudling-mini-idle.html","clawd_view/gif__cloudling-mini-peek.html","clawd_view/gif__cloudling-mini-sleep.html","clawd_view/gif__cloudling-notification.html","clawd_view/gif__cloudling-sleeping.html","clawd_view/gif__cloudling-sweeping.html","clawd_view/gif__cloudling-thinking.html","clawd_view/gif__cloudling-typing.html","clawd_view/acc__cowboy-hat.html","clawd_view/acc__halo-original.html","clawd_view/acc__halo.html","clawd_view/svg__idle-follow.html","clawd_view/acc__party-hat.html","clawd_view/acc__pumpkin-hat.html","clawd_view/acc__santa-hat-original.html","clawd_view/acc__santa-hat.html","clawd_view/acc__top-hat.html","clawd_view/svg__tray-icon-project-mark-complete.html","clawd_view/svg__tray-icon-project-mark.html","clawd_view/acc__western-cowboy-hat.html","clawd_view/acc__wizard-hat.html"};
  private static final String IDLE="clawd_view/svg__clawd-mini-idle.html";
  private static final String SLEEP="clawd_view/svg__clawd-mini-sleep.html";
  private static final String DOZE="clawd_view/svg__clawd-idle-doze.html";
@@ -67,7 +67,6 @@ public class PetService extends Service {
      "吵醒我了…","唔……醒了","谁呀……是你啊","我梦见你了","别闹，再睡五分钟"};
  private String pick(String[] a){return a[(int)(Math.random()*a.length)];}
  private static final String[] NAMES={
-     
      "迷你待机|clawd_view/svg__clawd-mini-idle.html","迷你开心|clawd_view/svg__clawd-mini-happy.html","迷你警觉|clawd_view/svg__clawd-mini-alert.html",
      "迷你横走|clawd_view/svg__clawd-mini-crabwalk.html","迷你进门|clawd_view/svg__clawd-mini-enter.html","迷你入眠|clawd_view/svg__clawd-mini-enter-sleep.html",
      "迷你偷看|clawd_view/svg__clawd-mini-peek.html","迷你睡觉|clawd_view/svg__clawd-mini-sleep.html","迷你打字|clawd_view/svg__clawd-mini-typing.html",
@@ -88,16 +87,13 @@ public class PetService extends Service {
      "戴耳机|clawd_view/svg__clawd-headphones-groove.html","牛仔帽|clawd_view/acc__cowboy-hat.html","西部长帽|clawd_view/acc__western-cowboy-hat.html",
      "派对帽|clawd_view/acc__party-hat.html","圣诞帽|clawd_view/acc__santa-hat.html","圣诞帽旧|clawd_view/acc__santa-hat-original.html",
      "南瓜帽|clawd_view/acc__pumpkin-hat.html","巫师帽|clawd_view/acc__wizard-hat.html","高礼帽|clawd_view/acc__top-hat.html",
-     "光环|clawd_view/acc__halo.html","光环旧|clawd_view/acc__halo-original.html","云朵待机|clawd_view/svg__cloudling-idle.html",
-     "云朵迷你待机|clawd_view/svg__cloudling-mini-idle.html","云朵开心|clawd_view/svg__cloudling-mini-happy.html","云朵警觉|clawd_view/svg__cloudling-mini-alert.html",
-     "云朵横走|clawd_view/svg__cloudling-mini-crabwalk.html","云朵进门|clawd_view/svg__cloudling-mini-enter-roll-in.html","云朵入眠|clawd_view/svg__cloudling-mini-enter-sleep.html",
-     "云朵偷看|clawd_view/svg__cloudling-mini-peek.html","云朵睡觉|clawd_view/svg__cloudling-mini-sleep.html","云朵打字|clawd_view/svg__cloudling-mini-typing.html",
-     "云朵注意|clawd_view/svg__cloudling-attention.html","云朵搭积木|clawd_view/svg__cloudling-building.html","云朵搬东西|clawd_view/svg__cloudling-carrying.html",
-     "云朵指挥|clawd_view/svg__cloudling-conducting.html","云朵打瞌睡|clawd_view/svg__cloudling-dozing.html","云朵困到睡|clawd_view/svg__cloudling-dozing-to-sleeping.html",
-     "云朵看书|clawd_view/svg__cloudling-idle-reading.html","云朵待机到困|clawd_view/svg__cloudling-idle-to-dozing.html","云朵待机到睡|clawd_view/svg__cloudling-idle-to-sleeping.html",
-     "云朵杂耍|clawd_view/svg__cloudling-juggling.html","云朵报错|clawd_view/svg__cloudling-error.html","云朵通知|clawd_view/svg__cloudling-notification.html",
-     "云朵被拖|clawd_view/svg__cloudling-react-drag.html","云朵睡醒|clawd_view/svg__cloudling-sleeping-to-idle.html","云朵睡着|clawd_view/svg__cloudling-sleeping.html",
-     "云朵扫除|clawd_view/svg__cloudling-sweeping.html","云朵思考|clawd_view/svg__cloudling-thinking.html","云朵大打字|clawd_view/svg__cloudling-typing.html",
+     "光环|clawd_view/acc__halo.html","光环旧|clawd_view/acc__halo-original.html","云朵待机|clawd_view/gif__cloudling-idle.html",
+     "云朵迷你待机|clawd_view/gif__cloudling-mini-idle.html","云朵开心|clawd_view/gif__cloudling-mini-happy.html","云朵警觉|clawd_view/gif__cloudling-mini-alert.html",
+     "云朵横走|clawd_view/gif__cloudling-mini-crabwalk.html","云朵偷看|clawd_view/gif__cloudling-mini-peek.html","云朵睡觉|clawd_view/gif__cloudling-mini-sleep.html",
+     "云朵注意|clawd_view/gif__cloudling-attention.html","云朵搭积木|clawd_view/gif__cloudling-building.html","云朵搬东西|clawd_view/gif__cloudling-carrying.html",
+     "云朵指挥|clawd_view/gif__cloudling-conducting.html","云朵看书|clawd_view/gif__cloudling-idle-reading.html","云朵杂耍|clawd_view/gif__cloudling-juggling.html",
+     "云朵报错|clawd_view/gif__cloudling-error.html","云朵通知|clawd_view/gif__cloudling-notification.html","云朵睡着|clawd_view/gif__cloudling-sleeping.html",
+     "云朵扫除|clawd_view/gif__cloudling-sweeping.html","云朵思考|clawd_view/gif__cloudling-thinking.html","云朵大打字|clawd_view/gif__cloudling-typing.html",
      "三花猫|clawd_view/svg__calico-idle-follow.html","打游戏|clawd_view/png__gaming.html","唱歌|clawd_view/png__singing.html",
      "端咖啡|clawd_view/png__coffee.html","弹吉他|clawd_view/png__guitar.html","情人节|clawd_view/png__valentine.html",
      "七夕|clawd_view/png__qixi.html","吃东西|clawd_view/png__eating.html","入睡|clawd_view/png__sleeping.html",
@@ -106,10 +102,12 @@ public class PetService extends Service {
      "运动|clawd_view/png__exercise.html","万圣节|clawd_view/png__halloween.html","元宵|clawd_view/png__lantern.html",
      "中秋|clawd_view/png__mid_autumn.html","新年|clawd_view/png__new_year.html","拍照|clawd_view/png__photo.html",
      "洗澡|clawd_view/png__shower.html","春天|clawd_view/png__spring.html","浇花|clawd_view/png__watering.html",
-     "听歌|clawd_view/png__listening.html"};
+     "听歌|clawd_view/png__listening.html"
+};
  private String byName(String v){
   for(int i=0;i<NAMES.length;i++){
-   int k=NAMES[i].indexOf(65);
+   int k=NAMES[i].indexOf(124);
+   if(k<0)continue;
    if(NAMES[i].substring(0,k).equals(v))return NAMES[i].substring(k+1);
   }
   return null;
@@ -176,10 +174,11 @@ public class PetService extends Service {
   bubble.setVisibility(View.GONE);
   applyBubbleColor(0);
   FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);
-  bp.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;
-  bp.topMargin=(int)(86*d);
+  bp.gravity=Gravity.TOP|Gravity.START;
+  bp.leftMargin=bubX();bp.topMargin=bubY();
+  bubble.setLayoutParams(bp);
   root.addView(bubble,bp);
-  bubble.setOnClickListener(v->{colorIdx=(colorIdx+1)%BC.length;applyBubbleColor(colorIdx);bubble.animate().scaleX(1.08f).scaleY(1.08f).setDuration(90).withEndAction(()->bubble.animate().scaleX(1f).scaleY(1f).setDuration(120).start()).start();});
+  bubbleDrag();
 
   lp=new WindowManager.LayoutParams(520,660,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -189,6 +188,44 @@ public class PetService extends Service {
   wm.addView(root,lp);
   setAction(IDLE);
   attachTouch();
+ }
+
+ /* ---------- draggable bubble ---------- */
+ private int dp(float v){return (int)(v*getResources().getDisplayMetrics().density);}
+ private int bubX(){return getSharedPreferences("pet",0).getInt("bx",dp(58));}
+ private int bubY(){return getSharedPreferences("pet",0).getInt("by",dp(74));}
+ private void bubbleDrag(){
+  bubble.setOnTouchListener(new android.view.View.OnTouchListener(){
+   float sx,sy;int ox,oy;boolean moved2;
+   public boolean onTouch(android.view.View v,android.view.MotionEvent e){
+    FrameLayout.LayoutParams p=(FrameLayout.LayoutParams)bubble.getLayoutParams();
+    switch(e.getAction()){
+     case android.view.MotionEvent.ACTION_DOWN:
+      sx=e.getRawX();sy=e.getRawY();ox=p.leftMargin;oy=p.topMargin;moved2=false;
+      bubble.animate().scaleX(1.06f).scaleY(1.06f).setDuration(80).start();
+      return true;
+     case android.view.MotionEvent.ACTION_MOVE:{
+      float dx=e.getRawX()-sx,dy=e.getRawY()-sy;
+      if(Math.abs(dx)>7||Math.abs(dy)>7)moved2=true;
+      android.util.DisplayMetrics dm=getResources().getDisplayMetrics();
+      int nx=(int)(ox+dx),ny=(int)(oy+dy);
+      nx=Math.max(dp(-10),Math.min(dm.widthPixels-dp(90),nx));
+      ny=Math.max(dp(-6),Math.min(dm.heightPixels-dp(60),ny));
+      p.leftMargin=nx;p.topMargin=ny;
+      bubble.setLayoutParams(p);
+      return true;}
+     case android.view.MotionEvent.ACTION_UP:
+      bubble.animate().scaleX(1f).scaleY(1f).setDuration(110).start();
+      FrameLayout.LayoutParams q=(FrameLayout.LayoutParams)bubble.getLayoutParams();
+      getSharedPreferences("pet",0).edit().putInt("bx",q.leftMargin).putInt("by",q.topMargin).apply();
+      if(!moved2){colorIdx=(colorIdx+1)%BC.length;applyBubbleColor(colorIdx);
+       bubble.animate().scaleX(1.12f).scaleY(1.12f).setDuration(90)
+        .withEndAction(()->bubble.animate().scaleX(1f).scaleY(1f).setDuration(130).start()).start();}
+      return true;
+    }
+    return false;
+   }
+  });
  }
 
  private void applyBubbleColor(int i){
@@ -349,7 +386,7 @@ public class PetService extends Service {
   bubble.setVisibility(View.VISIBLE);
   bubble.setAlpha(0f);bubble.setScaleY(0.86f);
   bubble.animate().alpha(1f).scaleY(1f).setDuration(210).start();
-  h.removeCallbacks(hide);h.postDelayed(hide,3600);
+  h.removeCallbacks(hide);h.postDelayed(hide,6000);
  }
  Runnable hide=new Runnable(){public void run(){bubble.animate().alpha(0f).setDuration(240)
    .withEndAction(()->bubble.setVisibility(View.GONE)).start();}};
