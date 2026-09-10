@@ -20,7 +20,7 @@ public class PetService extends Service {
  private CompanionMonitor monitor;private PopupWindow popup;
  private float downX,downY,startRawX,startRawY,baseLx,baseLy,lastMx,lastMt,vx;
  private long downTime,lastTrail,lastTouch,lastTap,comboStart,lastGlide;
- private boolean moved;private int combo,colorIdx,lastBat=-1,lastPlug=-1,lone=0,tapRun=0;
+ private boolean moved,dragSaid;private int combo,colorIdx,lastBat=-1,lastPlug=-1,lone=0,tapRun=0;
  private String curAction="";private int heat=0;private boolean waking;
 
  private static final String ACTIONS[]={"clawd_view/svg__clawd-mini-idle.html","clawd_view/png__birthday.html","clawd_view/png__christmas.html","clawd_view/png__coding.html","clawd_view/png__coffee.html","clawd_view/png__dragon_boat.html","clawd_view/png__eating.html","clawd_view/png__exercise.html","clawd_view/png__gaming.html","clawd_view/png__guitar.html","clawd_view/png__halloween.html","clawd_view/png__lantern.html","clawd_view/png__listening.html","clawd_view/png__mid_autumn.html","clawd_view/png__new_year.html","clawd_view/png__painting.html","clawd_view/png__photo.html","clawd_view/png__qixi.html","clawd_view/png__reading.html","clawd_view/png__shower.html","clawd_view/png__singing.html","clawd_view/png__sleeping.html","clawd_view/png__spring.html","clawd_view/png__valentine.html","clawd_view/png__watering.html","clawd_view/svg__calico-idle-follow.html","clawd_view/svg__cigarette-fragment.html","clawd_view/svg__cigarette.html","clawd_view/svg__clawd-about-hero.html","clawd_view/svg__clawd-aegyo-shy.html","clawd_view/svg__clawd-coffee-hand.html","clawd_view/svg__clawd-coffee-head-flip.html","clawd_view/svg__clawd-collapse-sleep.html","clawd_view/svg__clawd-dizzy.html","clawd_view/svg__clawd-error.html","clawd_view/svg__clawd-experiment-thinking-bubble-v24.html","clawd_view/svg__clawd-happy.html","clawd_view/svg__clawd-headphones-groove.html","clawd_view/svg__clawd-idle-bubble.html","clawd_view/svg__clawd-idle-collapse.html","clawd_view/svg__clawd-idle-doze.html","clawd_view/svg__clawd-idle-follow.html","clawd_view/svg__clawd-idle-living.html","clawd_view/svg__clawd-idle-look.html","clawd_view/svg__clawd-idle-low-battery.html","clawd_view/svg__clawd-idle-reading-old.html","clawd_view/svg__clawd-idle-reading.html","clawd_view/svg__clawd-idle-yawn.html","clawd_view/svg__clawd-mini-alert.html","clawd_view/svg__clawd-mini-crabwalk.html","clawd_view/svg__clawd-mini-enter-sleep.html","clawd_view/svg__clawd-mini-enter.html","clawd_view/svg__clawd-mini-happy.html","clawd_view/svg__clawd-mini-peek.html","clawd_view/svg__clawd-mini-sleep.html","clawd_view/svg__clawd-mini-typing.html","clawd_view/svg__clawd-notification-retired-2026-05-12.html","clawd_view/svg__clawd-notification.html","clawd_view/svg__clawd-outlaw-bender.html","clawd_view/svg__clawd-react-annoyed.html","clawd_view/svg__clawd-react-double-jump.html","clawd_view/svg__clawd-react-double.html","clawd_view/svg__clawd-react-drag.html","clawd_view/svg__clawd-react-left.html","clawd_view/svg__clawd-react-right.html","clawd_view/svg__clawd-sleeping.html","clawd_view/svg__clawd-static-base.html","clawd_view/svg__clawd-wake.html","clawd_view/svg__clawd-working-building-boxes.html","clawd_view/svg__clawd-working-building.html","clawd_view/svg__clawd-working-carrying.html","clawd_view/svg__clawd-working-conducting-retired-2026-05-12.html","clawd_view/svg__clawd-working-debugger.html","clawd_view/svg__clawd-working-juggling.html","clawd_view/svg__clawd-working-sweeping.html","clawd_view/svg__clawd-working-thinking.html","clawd_view/svg__clawd-working-typing-boss.html","clawd_view/svg__clawd-working-typing-old.html","clawd_view/svg__clawd-working-typing.html","clawd_view/svg__clawd-working-ultrathink.html","clawd_view/svg__clawd-working-wizard.html","clawd_view/svg__cloudling-attention.html","clawd_view/svg__cloudling-building.html","clawd_view/svg__cloudling-carrying.html","clawd_view/svg__cloudling-conducting.html","clawd_view/svg__cloudling-dozing-to-sleeping.html","clawd_view/svg__cloudling-dozing.html","clawd_view/svg__cloudling-error.html","clawd_view/svg__cloudling-idle-reading.html","clawd_view/svg__cloudling-idle-to-dozing.html","clawd_view/svg__cloudling-idle-to-sleeping.html","clawd_view/svg__cloudling-idle.html","clawd_view/svg__cloudling-juggling.html","clawd_view/svg__cloudling-mini-alert.html","clawd_view/svg__cloudling-mini-crabwalk.html","clawd_view/svg__cloudling-mini-enter-roll-in.html","clawd_view/svg__cloudling-mini-enter-sleep.html","clawd_view/svg__cloudling-mini-happy.html","clawd_view/svg__cloudling-mini-idle.html","clawd_view/svg__cloudling-mini-peek.html","clawd_view/svg__cloudling-mini-sleep.html","clawd_view/svg__cloudling-mini-typing.html","clawd_view/svg__cloudling-notification.html","clawd_view/svg__cloudling-react-drag.html","clawd_view/svg__cloudling-sleeping-to-idle.html","clawd_view/svg__cloudling-sleeping.html","clawd_view/svg__cloudling-sweeping.html","clawd_view/svg__cloudling-thinking.html","clawd_view/svg__cloudling-typing.html","clawd_view/acc__cowboy-hat.html","clawd_view/acc__halo-original.html","clawd_view/acc__halo.html","clawd_view/svg__idle-follow.html","clawd_view/acc__party-hat.html","clawd_view/acc__pumpkin-hat.html","clawd_view/acc__santa-hat-original.html","clawd_view/acc__santa-hat.html","clawd_view/acc__top-hat.html","clawd_view/svg__tray-icon-project-mark-complete.html","clawd_view/svg__tray-icon-project-mark.html","clawd_view/acc__western-cowboy-hat.html","clawd_view/acc__wizard-hat.html"};
@@ -114,6 +114,8 @@ public class PetService extends Service {
   }
   return null;
  }
+ private static final String[] DRAGL={
+     "别拖我……","晕了晕了","轻点呀","你要带我去哪","放我下来","我不好搬的","哎呀哎呀","晃得我头晕","你把我搬走干嘛","抓紧我","转圈圈好好玩","再转我要吐了"};
  private static final int[] BC={0xFFFFF0F8,0xFFFFEBEE,0xFFFFF8E1,0xFFE8F5E9,0xFFE3F2FD,0xFFF3E5F5,0xFFFFF3E0,0xFFE0F7FA,0xFFFCE4EC,0xFFEDE7F6,0xFFF1F8E9,0xFFFFFDE7,0xFFE8EAF6,0xFFFBE9E7,0xFFE0F2F1,0xFFFFF9C4};
  private static final int[] BS={0xFFF48FB1,0xFFE57373,0xFFFFCC80,0xFF81C784,0xFF64B5F6,0xFFBA68C8,0xFFFFB74D,0xFF4DD0E1,0xFFF06292,0xFF9575CD,0xFFAED581,0xFFFFD54F,0xFF7986CB,0xFFFF8A65,0xFF4DB6AC,0xFFFFB300};
 
@@ -233,12 +235,13 @@ public class PetService extends Service {
      downTime=lastTouch;downX=e.getRawX();downY=e.getRawY();
      startRawX=e.getRawX();startRawY=e.getRawY();
      baseLx=lp.x;baseLy=lp.y;
-     lastMx=e.getRawX();lastMt=downTime;vx=0;moved=false;
+     lastMx=e.getRawX();lastMt=downTime;vx=0;moved=false;dragSaid=false;
      crabView.animate().scaleX(1.2f).scaleY(1.2f).setDuration(90).start();
      return true;
     case MotionEvent.ACTION_MOVE:{
      float dx=e.getRawX()-downX,dy=e.getRawY()-downY;
      if(Math.abs(dx)>8||Math.abs(dy)>8)moved=true;
+      if(moved&&!dragSaid){dragSaid=true;say(pick(DRAGL));}
      long nt=System.currentTimeMillis();
      if(nt-lastMt>16){vx=(e.getRawX()-lastMx)/(float)(nt-lastMt);lastMx=e.getRawX();lastMt=nt;}
      if(moved){
@@ -249,14 +252,14 @@ public class PetService extends Service {
       ny=Math.max(-180,Math.min(dmx.heightPixels-480,ny));
       lp.x=nx;lp.y=ny;wm.updateViewLayout(root,lp);
       crabView.animate().scaleX(1.15f).scaleY(1.15f)
-        .rotation(Math.max(-12f,Math.min(12f,dy*0.4f))).setDuration(120).start();
+        .rotation((e.getRawX()-startRawX)*0.55f).setDuration(120).start();
       long t=System.currentTimeMillis();
       if(t-lastTrail>260){lastTrail=t;trail();}
      }
      return true;}
     case MotionEvent.ACTION_UP:{
      if(moved){
-      crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();
+      spinFinish();
       if(Math.abs(vx)>1100&&System.currentTimeMillis()-lastGlide>2500)fling(vx);
      }else{
       crabView.animate().scaleX(1f).scaleY(1f).setDuration(120).start();
@@ -266,7 +269,7 @@ public class PetService extends Service {
      }
      return true;}
     case MotionEvent.ACTION_CANCEL:
-     if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();moved=false;}
+     if(moved){spinFinish();moved=false;}
      return true;
    }
    return true;
@@ -306,9 +309,16 @@ public class PetService extends Service {
   sbPush("gesture","tap");
  }
 
+ private void spinFinish(){
+  final float cur=crabView.getRotation();
+  float target=Math.round(cur/360f)*360f;
+  crabView.animate().rotation(target).scaleX(1f).scaleY(1f).setDuration(220)
+   .withEndAction(()->crabView.setRotation(0f)).start();
+ }
  private void fling(float v){
   lastGlide=System.currentTimeMillis();
   say(pick(FLING));
+  crabView.animate().rotationBy(720f).setDuration(430).start();
   final int w=getResources().getDisplayMetrics().widthPixels;
   final int target=v>0?(w-500):(-20);
   final int from=lp.x;
