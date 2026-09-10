@@ -2,7 +2,7 @@
 #w{position:absolute;inset:0}
 #w svg{width:100%!important;height:100%!important;display:block}</style></head><body><div id="w">
 <!-- Original PR #529 pixel-art halo source retained before the smooth angel-halo redraw. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 5" shape-rendering="crispEdges" width="14" height="5">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.1 -6.6 18.2 18.2" shape-rendering="crispEdges" width="14" height="5">
   <g fill="#ffd84d">
     <rect x="4" y="0" width="6" height="1"/>
     <rect x="2" y="1" width="2" height="1"/>
@@ -15,30 +15,4 @@
   </g>
   <rect x="4" y="0" width="6" height="1" fill="#fff3b0"/>
 </svg>
-</div><script>
-(function(){
- var best=0;
- function fit(){
-  var s=document.querySelector('#w>svg'); if(!s)return;
-  var kids=s.children,minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9,ok=false;
-  for(var i=0;i<kids.length;i++){
-   var b; try{b=kids[i].getBBox();}catch(e){continue;}
-   if(!b||!isFinite(b.width)||!isFinite(b.height))continue;
-   if(b.width<=0&&b.height<=0)continue;
-   ok=true;
-   if(b.x<minX)minX=b.x;
-   if(b.y<minY)minY=b.y;
-   if(b.x+b.width>maxX)maxX=b.x+b.width;
-   if(b.y+b.height>maxY)maxY=b.y+b.height;
-  }
-  if(!ok)return;
-  var S=Math.max(maxX-minX,maxY-minY);
-  if(!isFinite(S)||S<=best)return;
-  best=S;
-  var T=S*1.30;
-  var cx=(minX+maxX)/2, cy=(minY+maxY)/2;
-  s.setAttribute('viewBox',(cx-T/2)+' '+(cy-T/2)+' '+T+' '+T);
- }
- setTimeout(fit,20); setTimeout(fit,240); setTimeout(fit,700);
-})();
-</script></body></html>
+</div></body></html>

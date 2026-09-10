@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:transparent;overflow:hidden;width:100%;height:100%}#w{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}#w svg,#w img{width:100%;height:100%;display:block}#w img{object-fit:contain}</style></head><body><div id="w"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:transparent;overflow:hidden;width:100%;height:100%}#w{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}#w svg,#w img{width:100%;height:100%;display:block}#w img{object-fit:contain}</style></head><body><div id="w"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-21.75 -31.75 58.5 58.5">
   <defs>
     <style>
       /* Body sways side to side (held from above) */
@@ -99,30 +99,4 @@
       <polyline points="11,8 9.5,9 11,10"/>
     </g>
   </g>
-</svg></div><script>
-(function(){
- var best=0;
- function fit(){
-  var s=document.querySelector('#w>svg'); if(!s)return;
-  var kids=s.children,minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9,ok=false;
-  for(var i=0;i<kids.length;i++){
-   var b; try{b=kids[i].getBBox();}catch(e){continue;}
-   if(!b||!isFinite(b.width)||!isFinite(b.height))continue;
-   if(b.width<=0&&b.height<=0)continue;
-   ok=true;
-   if(b.x<minX)minX=b.x;
-   if(b.y<minY)minY=b.y;
-   if(b.x+b.width>maxX)maxX=b.x+b.width;
-   if(b.y+b.height>maxY)maxY=b.y+b.height;
-  }
-  if(!ok)return;
-  var S=Math.max(maxX-minX,maxY-minY);
-  if(!isFinite(S)||S<=best)return;
-  best=S;
-  var T=S*1.30;
-  var cx=(minX+maxX)/2, cy=(minY+maxY)/2;
-  s.setAttribute('viewBox',(cx-T/2)+' '+(cy-T/2)+' '+T+' '+T);
- }
- setTimeout(fit,20); setTimeout(fit,240); setTimeout(fit,700);
-})();
-</script></body></html>
+</svg></div></body></html>
