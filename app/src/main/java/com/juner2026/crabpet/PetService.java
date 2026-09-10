@@ -144,9 +144,10 @@ public class PetService extends Service {
   GradientDrawable gd=new GradientDrawable();
   gd.setShape(GradientDrawable.OVAL);
   gd.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-  gd.setGradientRadius(250f);
-  gd.setColors(new int[]{0x55FFC4DE,0x33FFC4DE,0x1AFFC4DE,0x00FFC4DE});
+  gd.setGradientRadius(265f);
+  gd.setColors(new int[]{0x7AFF8FA8,0x4DFF8AA0,0x24FF8698,0x00FF8698});
   glow.setBackground(gd);
+  glow.setTranslationY(24f);
   FrameLayout.LayoutParams gp=new FrameLayout.LayoutParams(500,500);
   gp.gravity=Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL;
   root.addView(glow,gp);
@@ -174,7 +175,7 @@ public class PetService extends Service {
   applyBubbleColor(0);
   FrameLayout.LayoutParams bp=new FrameLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);
   bp.gravity=Gravity.TOP|Gravity.CENTER_HORIZONTAL;
-  bp.topMargin=(int)(16*d);
+  bp.topMargin=(int)(120*d);
   root.addView(bubble,bp);
   bubble.setOnClickListener(v->{colorIdx=(colorIdx+1)%BC.length;applyBubbleColor(colorIdx);bubble.animate().scaleX(1.08f).scaleY(1.08f).setDuration(90).withEndAction(()->bubble.animate().scaleX(1f).scaleY(1f).setDuration(120).start()).start();});
 
@@ -213,7 +214,13 @@ public class PetService extends Service {
 
  /* ---------------- touch ---------------- */
  private void attachTouch(){
-  root.setOnTouchListener((v,e)->{
+  android.view.View.OnTouchListener l=(v,e)->handleTouch(e);
+  root.setOnTouchListener(l);
+  crabView.setOnTouchListener(l);
+  crabView.setClickable(false);
+  crabView.setLongClickable(false);
+ }
+ private boolean handleTouch(MotionEvent e){
    switch(e.getAction()){
     case MotionEvent.ACTION_DOWN:
      lastTouch=System.currentTimeMillis();lone=0;
@@ -256,7 +263,7 @@ public class PetService extends Service {
      if(moved){crabView.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(180).start();moved=false;}
      return true;
    }
-   return true;});
+   return true;
  }
 
  private void tap(){
