@@ -66,6 +66,54 @@ public class PetService extends Service {
      "截了记得发我","哦？偷偷存档","又收集素材呢"};private static final String[] WAKE2={
      "吵醒我了…","唔……醒了","谁呀……是你啊","我梦见你了","别闹，再睡五分钟"};
  private String pick(String[] a){return a[(int)(Math.random()*a.length)];}
+ private static final String[] NAMES={
+     
+     "迷你待机|clawd_view/svg__clawd-mini-idle.html","迷你开心|clawd_view/svg__clawd-mini-happy.html","迷你警觉|clawd_view/svg__clawd-mini-alert.html",
+     "迷你横走|clawd_view/svg__clawd-mini-crabwalk.html","迷你进门|clawd_view/svg__clawd-mini-enter.html","迷你入眠|clawd_view/svg__clawd-mini-enter-sleep.html",
+     "迷你偷看|clawd_view/svg__clawd-mini-peek.html","迷你睡觉|clawd_view/svg__clawd-mini-sleep.html","迷你打字|clawd_view/svg__clawd-mini-typing.html",
+     "开心|clawd_view/svg__clawd-happy.html","脸红|clawd_view/svg__clawd-aegyo-shy.html","惊醒|clawd_view/svg__clawd-wake.html",
+     "睡着|clawd_view/svg__clawd-sleeping.html","瘫睡|clawd_view/svg__clawd-collapse-sleep.html","瘫掉|clawd_view/svg__clawd-idle-collapse.html",
+     "晕了|clawd_view/svg__clawd-dizzy.html","报错|clawd_view/svg__clawd-error.html","生气|clawd_view/svg__clawd-react-annoyed.html",
+     "双击跳|clawd_view/svg__clawd-react-double-jump.html","双击|clawd_view/svg__clawd-react-double.html","被拖|clawd_view/svg__clawd-react-drag.html",
+     "探头左|clawd_view/svg__clawd-react-left.html","探头右|clawd_view/svg__clawd-react-right.html","通知|clawd_view/svg__clawd-notification.html",
+     "坏蛋|clawd_view/svg__clawd-outlaw-bender.html","待机|clawd_view/svg__clawd-mini-idle.html","呼吸|clawd_view/svg__clawd-idle-living.html",
+     "跟鼠标|clawd_view/svg__clawd-idle-follow.html","乱看|clawd_view/svg__clawd-idle-look.html","打瞌睡|clawd_view/svg__clawd-idle-doze.html",
+     "吹泡泡|clawd_view/svg__clawd-idle-bubble.html","看书|clawd_view/svg__clawd-idle-reading.html","看书旧|clawd_view/svg__clawd-idle-reading-old.html",
+     "打哈欠|clawd_view/svg__clawd-idle-yawn.html","低电量|clawd_view/svg__clawd-idle-low-battery.html","打代码|clawd_view/svg__clawd-working-typing.html",
+     "代码老板|clawd_view/svg__clawd-working-typing-boss.html","代码旧|clawd_view/svg__clawd-working-typing-old.html","调试|clawd_view/svg__clawd-working-debugger.html",
+     "思考|clawd_view/svg__clawd-working-thinking.html","超频思考|clawd_view/svg__clawd-working-ultrathink.html","搬箱子|clawd_view/svg__clawd-working-building-boxes.html",
+     "搭积木|clawd_view/svg__clawd-working-building.html","搬东西|clawd_view/svg__clawd-working-carrying.html","扫除|clawd_view/svg__clawd-working-sweeping.html",
+     "杂耍|clawd_view/svg__clawd-working-juggling.html","变魔术|clawd_view/svg__clawd-working-wizard.html","指挥|clawd_view/svg__clawd-working-conducting-retired-2026-05-12.html",
+     "实验思考|clawd_view/svg__clawd-experiment-thinking-bubble-v24.html","喝咖啡|clawd_view/svg__clawd-coffee-hand.html","咖啡翻头|clawd_view/svg__clawd-coffee-head-flip.html",
+     "戴耳机|clawd_view/svg__clawd-headphones-groove.html","牛仔帽|clawd_view/svg__cowboy-hat.html","西部长帽|clawd_view/svg__western-cowboy-hat.html",
+     "派对帽|clawd_view/svg__party-hat.html","圣诞帽|clawd_view/svg__santa-hat.html","圣诞帽旧|clawd_view/svg__santa-hat-original.html",
+     "南瓜帽|clawd_view/svg__pumpkin-hat.html","巫师帽|clawd_view/svg__wizard-hat.html","高礼帽|clawd_view/svg__top-hat.html",
+     "光环|clawd_view/svg__halo.html","光环旧|clawd_view/svg__halo-original.html","云朵待机|clawd_view/svg__cloudling-idle.html",
+     "云朵迷你待机|clawd_view/svg__cloudling-mini-idle.html","云朵开心|clawd_view/svg__cloudling-mini-happy.html","云朵警觉|clawd_view/svg__cloudling-mini-alert.html",
+     "云朵横走|clawd_view/svg__cloudling-mini-crabwalk.html","云朵进门|clawd_view/svg__cloudling-mini-enter-roll-in.html","云朵入眠|clawd_view/svg__cloudling-mini-enter-sleep.html",
+     "云朵偷看|clawd_view/svg__cloudling-mini-peek.html","云朵睡觉|clawd_view/svg__cloudling-mini-sleep.html","云朵打字|clawd_view/svg__cloudling-mini-typing.html",
+     "云朵注意|clawd_view/svg__cloudling-attention.html","云朵搭积木|clawd_view/svg__cloudling-building.html","云朵搬东西|clawd_view/svg__cloudling-carrying.html",
+     "云朵指挥|clawd_view/svg__cloudling-conducting.html","云朵打瞌睡|clawd_view/svg__cloudling-dozing.html","云朵困到睡|clawd_view/svg__cloudling-dozing-to-sleeping.html",
+     "云朵看书|clawd_view/svg__cloudling-idle-reading.html","云朵待机到困|clawd_view/svg__cloudling-idle-to-dozing.html","云朵待机到睡|clawd_view/svg__cloudling-idle-to-sleeping.html",
+     "云朵杂耍|clawd_view/svg__cloudling-juggling.html","云朵报错|clawd_view/svg__cloudling-error.html","云朵通知|clawd_view/svg__cloudling-notification.html",
+     "云朵被拖|clawd_view/svg__cloudling-react-drag.html","云朵睡醒|clawd_view/svg__cloudling-sleeping-to-idle.html","云朵睡着|clawd_view/svg__cloudling-sleeping.html",
+     "云朵扫除|clawd_view/svg__cloudling-sweeping.html","云朵思考|clawd_view/svg__cloudling-thinking.html","云朵大打字|clawd_view/svg__cloudling-typing.html",
+     "三花猫|clawd_view/svg__calico-idle-follow.html","打游戏|clawd_view/png__gaming.html","唱歌|clawd_view/png__singing.html",
+     "端咖啡|clawd_view/png__coffee.html","弹吉他|clawd_view/png__guitar.html","情人节|clawd_view/png__valentine.html",
+     "七夕|clawd_view/png__qixi.html","吃东西|clawd_view/png__eating.html","入睡|clawd_view/png__sleeping.html",
+     "写代码|clawd_view/png__coding.html","画画|clawd_view/png__painting.html","读书|clawd_view/png__reading.html",
+     "生日|clawd_view/png__birthday.html","圣诞|clawd_view/png__christmas.html","端午|clawd_view/png__dragon_boat.html",
+     "运动|clawd_view/png__exercise.html","万圣节|clawd_view/png__halloween.html","元宵|clawd_view/png__lantern.html",
+     "中秋|clawd_view/png__mid_autumn.html","新年|clawd_view/png__new_year.html","拍照|clawd_view/png__photo.html",
+     "洗澡|clawd_view/png__shower.html","春天|clawd_view/png__spring.html","浇花|clawd_view/png__watering.html",
+     "听歌|clawd_view/png__listening.html"};
+ private String byName(String v){
+  for(int i=0;i<NAMES.length;i++){
+   int k=NAMES[i].indexOf(65);
+   if(NAMES[i].substring(0,k).equals(v))return NAMES[i].substring(k+1);
+  }
+  return null;
+ }
  private static final int[] BC={0xFFFFF0F8,0xFFFFEBEE,0xFFFFF8E1,0xFFE8F5E9,0xFFE3F2FD,0xFFF3E5F5,0xFFFFF3E0,0xFFE0F7FA,0xFFFCE4EC,0xFFEDE7F6,0xFFF1F8E9,0xFFFFFDE7,0xFFE8EAF6,0xFFFBE9E7,0xFFE0F2F1,0xFFFFF9C4};
  private static final int[] BS={0xFFF48FB1,0xFFE57373,0xFFFFCC80,0xFF81C784,0xFF64B5F6,0xFFBA68C8,0xFFFFB74D,0xFF4DD0E1,0xFFF06292,0xFF9575CD,0xFFAED581,0xFFFFD54F,0xFF7986CB,0xFFFF8A65,0xFF4DB6AC,0xFFFFB300};
 
@@ -151,9 +199,11 @@ public class PetService extends Service {
  /* ---------------- action loading ---------------- */
  private void setAction(String asset){
   if(asset==null||asset.isEmpty())return;
-  String a=asset;
+  String a=asset.trim();
   if(!a.contains("/")){
-   if(a.endsWith(".html"))a="clawd_view/"+a;
+   String hit=byName(a);
+   if(hit!=null)a=hit;
+   else if(a.endsWith(".html"))a="clawd_view/"+a;
    else a="clawd_view/svg__"+a+".html";
   }
   curAction=a;
