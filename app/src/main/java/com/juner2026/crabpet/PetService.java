@@ -190,6 +190,7 @@ public class PetService extends Service {
  }
 
  private void applyBubbleColor(int i){
+  if(bubble==null)return;
   GradientDrawable g=new GradientDrawable();
   g.setColor(BC[i]);
   g.setStroke((int)(1.4f*getResources().getDisplayMetrics().density),BS[i]);
@@ -208,6 +209,11 @@ public class PetService extends Service {
    else a="clawd_view/svg__"+a+".html";
   }
   curAction=a;
+  int idx=-1;
+  for(int i=0;i<ACTIONS.length;i++){if(ACTIONS[i].equals(a)){idx=i;break;}}
+  if(idx<0)idx=Math.abs(a.hashCode());
+  colorIdx=idx%BC.length;
+  applyBubbleColor(colorIdx);
   try{crabView.loadUrl("file:///android_asset/"+a);}catch(Exception e){}
  }
  private void randomAction(){if(ACTIONS.length==0)return;setAction(ACTIONS[(int)(Math.random()*ACTIONS.length)]);}
