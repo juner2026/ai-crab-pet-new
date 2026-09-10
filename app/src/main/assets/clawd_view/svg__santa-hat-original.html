@@ -14,4 +14,30 @@
   <rect x="1" y="7" width="12" height="1" fill="#f4f4f4"/>
   <rect x="1" y="8" width="12" height="1" fill="#e3e3e3"/>
 </svg>
-</div></body></html>
+</div><script>
+(function(){
+ var best=0;
+ function fit(){
+  var s=document.querySelector('#w>svg'); if(!s)return;
+  var kids=s.children,minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9,ok=false;
+  for(var i=0;i<kids.length;i++){
+   var b; try{b=kids[i].getBBox();}catch(e){continue;}
+   if(!b||!isFinite(b.width)||!isFinite(b.height))continue;
+   if(b.width<=0&&b.height<=0)continue;
+   ok=true;
+   if(b.x<minX)minX=b.x;
+   if(b.y<minY)minY=b.y;
+   if(b.x+b.width>maxX)maxX=b.x+b.width;
+   if(b.y+b.height>maxY)maxY=b.y+b.height;
+  }
+  if(!ok)return;
+  var S=Math.max(maxX-minX,maxY-minY);
+  if(!isFinite(S)||S<=best)return;
+  best=S;
+  var T=S*1.14;
+  var cx=(minX+maxX)/2, cy=(minY+maxY)/2;
+  s.setAttribute('viewBox',(cx-T/2)+' '+(cy-T/2)+' '+T+' '+T);
+ }
+ setTimeout(fit,20); setTimeout(fit,240); setTimeout(fit,700);
+})();
+</script></body></html>
